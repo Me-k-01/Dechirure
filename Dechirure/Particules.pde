@@ -27,15 +27,15 @@ class Particule{
         statique = fixe;
     }
     
-    public void integration(float t) {
+    public void integration(float dt) {
         if (!statique) {
-            PVector acceleration = PVector.div(forceExterne,masse);
-            
-            PVector velociteSuivante = PVector.add(velocite, PVector.mult(acceleration,t));
-            PVector positionSuivante = PVector.add(position, PVector.mult(velociteSuivante,t));
-            
-            position = positionSuivante.copy();
-            velocite = velociteSuivante.copy();
+          // intégration d'euler 2.3 du papier de Xavier Provot. 
+          PVector acceleration = PVector.div(forceExterne, masse); // a(t + dt) = F/m   
+          PVector velociteSuivante = PVector.add(velocite, PVector.mult(acceleration, dt)); // v(t+dt) = v(t) + dt * a(t+dt)
+          PVector positionSuivante = PVector.add(position, PVector.mult(velociteSuivante, dt)); // P(t + dt) = P(t) + dt * v(t + dt)
+          
+          position = positionSuivante.copy();
+          velocite = velociteSuivante.copy();
         }
     }
     

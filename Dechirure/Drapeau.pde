@@ -98,23 +98,38 @@ class Drapeau{
 
         //ressorts
         for (int i = 0; i < ressorts.size();i++) {
-            ressorts.get(i).calculerForces();    
+            ressorts.get(i).calculerForces();     
         }
 
         //triangles
         for (int i = 0; i < triangles.size();i++) {
             triangles.get(i).calculerForces();    
         }
+         
+        
+        
+        
+        
+    }
+    
+    public void correctionDesDeformations(float dt) {
+        // Procédure dynamique inverse  pour eviter l'élongation des ressorts, à faire après l'intégration.
+        
+        for (Ressort ressort : ressorts) {
+          ressort.corrige(dt);
+        }
+        // Cette opération déplace les position des vertices et risque de créer d'autre ressorts trop étendu. 
+        // Cependant, les deformations étant concentré assez localement, le résultat reste plus acceptable que sans cette opération.
     }
     
     
-    
-    public void mettreAJour(float t) {
+    public void mettreAJour(float dt) {
         
         forces();
         for (int i = 0; i < particules.size(); i++) {
-            particules.get(i).integration(t);
+            particules.get(i).integration(dt);
         }
+        correctionDesDeformations(dt);
     }
     
     

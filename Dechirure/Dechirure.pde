@@ -18,6 +18,7 @@ void genereVent(float n) {
   
   vent.mult(n);
 }
+ 
 
 void setup() { 
     
