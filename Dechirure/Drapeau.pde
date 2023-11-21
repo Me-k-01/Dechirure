@@ -91,25 +91,19 @@ class Drapeau{
         
         // 3 boucles sur chaque tableau
         //particules
-
-        for (int i = 0; i < particules.size();i++) {
-            particules.get(i).calculerForces();            
+        for (Particule particule : particules) { 
+            particule.calculerForces();            
         }
 
         //ressorts
-        for (int i = 0; i < ressorts.size();i++) {
-            ressorts.get(i).calculerForces();     
+        for (Ressort ressort : ressorts) {
+            ressort.calculerForces();     
         }
 
         //triangles
-        for (int i = 0; i < triangles.size();i++) {
-            triangles.get(i).calculerForces();    
+        for (Triangle tri : triangles) {  
+            tri.calculerForces();    
         }
-         
-        
-        
-        
-        
     }
     
     public void correctionDesDeformations(float dt) {
@@ -125,22 +119,23 @@ class Drapeau{
     
     public void mettreAJour(float dt) {
         
-        forces();
-        for (int i = 0; i < particules.size(); i++) {
-            particules.get(i).integration(dt);
-        }
+        forces(); 
+        
+        for (Particule particule : particules) { 
+            particule.integration(dt);
+        } 
         correctionDesDeformations(dt);
     }
     
     
     public void dessiner() {
         /*
-        for(int i =0 ; i<particules.size();i++){
+        for(int i =0 ; i<particules.size(); i++){
         particules.get(i).dessiner(10);
     }
         */
         /*
-        for (int i = 0; i < ressorts.size();i++) {
+        for (int i = 0; i < ressorts.size(); i++) {
             ressorts.get(i).dessiner();
         }
         */    

@@ -36,15 +36,14 @@ class Ressort{
         if (abs(deformation) <= tc*longueurRepos) return; 
         
         // Il faut les replacer les position et recalculer les velocités en conséquence, 
-        // de tel sorte a ce que la deformation actuel corresponde à la deformation max
-         
-        
+        // de tel sorte a ce que la deformation actuel corresponde à la deformation max        
         PVector dep = p1P2.normalize().mult(deformation);
+        
         // On replace les masses, en ne prenant pas en compte l'intégration précedente.
-        // Dynamique inverse car on place les positions avant de recalculer la vélocité
+        // C'est une procédure dynamique inverse car on place les positions avant de recalculer la vélocité
           
-        // La réduction doit etre opérer selon si le rossort est libre ou fixe  
-        // Si l'un des deux est fixe, il faut rapprocher le libre vers le fixe de sorte a respecter la contrainte
+        // La réduction doit se faire selon si le ressort est libre ou fixe  
+        // Si l'un des deux est fixe, il faut rapprocher le libre vers le fixe de sorte a respecter la contrainte statique de masses
         if (particule1.statique) {
           particule2.position.sub(dep);
         } else if (particule2.statique) {
@@ -78,10 +77,12 @@ class Ressort{
         //print(dist+"\n");
         particule1.forceExterne.add(f);
         particule2.forceExterne.sub(f);
-        /*if (particule1.statique) {
+        
+        /*
+        // Si la masses est statiques, on déplace deux fois plus l'autre
+        if (particule1.statique) {
           particule2.forceExterne.sub(f);
-        }
-        if (particule2.statique) {
+        } else if (particule2.statique) {
           particule1.forceExterne.add(f);
         }*/
     }
