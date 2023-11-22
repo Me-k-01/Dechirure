@@ -10,7 +10,7 @@ class Drapeau{
     public ArrayList<Triangle> triangles = new ArrayList<Triangle>();
     
     
-    public Drapeau(PVector p, int nbParticules, int l, float masses, float amortissementAirMasses, float longRep, float amortissementAirTri ) {
+    public Drapeau(PVector p, int nbParticules, int l, float masses, float amortissementAirMasses, float longRep, float distance, float amortissementAirTri ) {
         
         // generation des particules
         //============================================
@@ -18,12 +18,15 @@ class Drapeau{
         longueur = l;
         largeur = nbParticules / longueur;
         
+        if(distance > longRep)
+            print("une erreur\n");// ("longeur au repos trop petite ");
         
         PVector posParticule;
         for (int i = 0; i < nbParticules; i++) {
+        
+            float x = (i % longueur) * distance;
+            float y = int(i / longueur) * distance;
             
-            float x = (i % longueur) * longRep;
-            float y = int(i / longueur) * longRep;
             posParticule = new PVector(x, y, 0).add(position);
             
             particules.add(new Particule(posParticule, new PVector(0, 0, 0), masses, amortissementAirMasses));
@@ -118,32 +121,33 @@ class Drapeau{
     }
     
     
-    public void mettreAJour(float dt) {
+    public void mettreAJour(float dt, boolean correct) {
         
         forces(); 
         
         for (Particule particule : particules) { 
             particule.integration(dt);
         } 
-        //correctionDesDeformations(dt);
+        if (correct)
+            correctionDesDeformations(dt);
     }
     
     
-    public void dessiner() {
+    public void dessiner(boolean renduTriangle) {
         /*
         for(int i =0 ; i<particules.size(); i++){
         particules.get(i).dessiner(10);
     }
         */
-        
-        for (int i = 0; i < ressorts.size(); i++) {
-            ressorts.get(i).dessiner();
+        if (renduTriangle) {
+            for (Triangle tri : triangles) { 
+                tri.dessiner();
+            }
+        } else { 
+            for (int i = 0; i < ressorts.size(); i++) {
+                ressorts.get(i).dessiner();
+            }
         }
-            
-        /*
-        for (int i = 0; i < triangles.size(); i++) {
-            triangles.get(i).dessiner();
-        }
-        */
+             
     }
 }
