@@ -5,7 +5,7 @@ PeasyCam cam;
 Drapeau d;
 PVector gravite, vent;
 float dt = 0.001f;
-
+boolean pause = false;
 
 float rigiditePrincipale=1;
 float rigiditeSecond=0.1;
@@ -31,21 +31,29 @@ void setup() {
   cam.setMaximumDistance(1000);
   cam.setSuppressRollRotationMode(); 
  
-  d = new Drapeau(new PVector(0,0,0), 70 , 10 , 10 ,0.01, 100, 5.5);
+  d = new Drapeau(new PVector(0,0,0), 100 , 10 , 100 ,0.01, 100, 5.5); //70 , 10 , 10
   vent = new PVector(0,0,0); 
   gravite = new PVector(0,9.8,0); 
   
 }
 
+void keyPressed(){
+
+  if(key=='p'){//pause
+    pause = !pause;
+  }
+  
+}
 
 void draw() {
   background(200);
   
   d.dessiner();
-  genereVent(20);
+  genereVent(10);
   
-  for(float i = 0; i < 0.1f; i+= dt){
-    d.mettreAJour(dt);
-  }
+  if(!pause)
+    for(float i = 0; i < 0.1f; i+= dt){
+      d.mettreAJour(dt);
+    }
     
 }

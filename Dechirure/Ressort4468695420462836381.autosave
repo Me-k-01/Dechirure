@@ -4,9 +4,9 @@
 cela permet de réduire l'élongation sur les endroit a forte contrainte en un temps donné, ce qui force la réparticion de l'élongation sur le reste du maillage
 */
 enum Type{
-  principaux,//struct
-  diagonale, // shear
-  secondaire //flex
+  principaux,
+  diagonale,
+  secondaire
 };
     
 class Ressort{
@@ -30,13 +30,11 @@ class Ressort{
         particule1 = p1;
         particule2 = p2;
         type = t;
-        tc = 0.001f; // Taux de deformation critique 
+        tc = 0.0001f; // Taux de deformation critique 
     }
     
-    public void corrige(float dt) { // Corrige sur un pas de temps donné les élongations //<>// //<>//
-        if(type == Type.secondaire  )
-          return;
-          
+    public void corrige(float dt) { // Corrige sur un pas de temps donné les élongations
+    
         PVector p1P2 = PVector.sub(particule2.position, particule1.position);
         float dist = p1P2.mag();
         
@@ -64,8 +62,8 @@ class Ressort{
         } 
         else { 
           dep = PVector.mult(dep, 0.5f); // Déplacement vers le centre
-          particule1.position.sub(dep);
-          particule2.position.add(dep);
+          particule2.position.sub(dep);
+          particule1.position.add(dep);
         }
         
         

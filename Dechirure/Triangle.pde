@@ -1,11 +1,5 @@
 class Triangle{
 
-/*
-    public int idParticule1;
-    public int idParticule2;
-    public int idParticule3;
-*/
-
     public Particule particule1;
     public Particule particule2;
     public Particule particule3;
