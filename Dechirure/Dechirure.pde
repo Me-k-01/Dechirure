@@ -33,19 +33,24 @@ void setup() {
   cam.setMaximumDistance(1000);
   cam.setSuppressRollRotationMode(); 
  
-  d = new Drapeau(new PVector(0,0,0), 100 , 10 , 100, 0.01, 100, 100, 5.5); //70 , 10 , 10
+  d = new Drapeau(new PVector(0,0,0), 100 , 10 , 100, 0.01, 200, 100, 5.5); //70 , 10 , 10
   vent = new PVector(0,0,0); 
   gravite = new PVector(0,9.8,0); 
   
 }
 
 void keyPressed(){
-  if (key == 'c') 
+  if (key == 'c') {
     correct = !correct;
-  if (key == 'r') 
+    println("Configuration : Correction des déformations à " + correct);
+  } 
+  if (key == 'r') {
     renduTriangle = !renduTriangle;
+    println("Configuration : rendu en triangle à " + renduTriangle);
+  } 
   if(key == 'p'){//pause
     pause = !pause;
+    println("Configuration : Pause à " + pause);
   }
   
 }
@@ -54,7 +59,7 @@ void draw() {
   background(200);
   
   d.dessiner(renduTriangle);
-  genereVent(100);
+  genereVent(10);
   
   if(!pause)
     for(float i = 0; i < 0.1f; i+= dt){
