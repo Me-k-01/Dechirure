@@ -5,13 +5,28 @@ PeasyCam cam;
 Drapeau d;
 PVector gravite, vent;
 float dt = 0.001f;
-boolean pause = false;
-boolean renduTriangle = true;
-boolean correct = true;
+
+PVector positionHautGauche= new PVector(0,0,0);
+
+int nbParticules =100;
+int nbParticulesLargeur=10;
+float masseParticules=100;
+float fricAirParticules=0.01f;
+
+float longueurRepos=200;
+float espacement=100;
+
+float fricAirTraingle = 5.5f;
+
 
 float rigiditePrincipale=1;
 float rigiditeSecond=0.1;
 float rigiditeDiag=0.1;
+
+boolean pause = false;
+boolean renduTriangle = true;
+boolean correct = true;
+
 
 void genereVent(float n) {
   vent.x = random(0,5);
@@ -33,7 +48,7 @@ void setup() {
   cam.setMaximumDistance(1000);
   cam.setSuppressRollRotationMode(); 
  
-  d = new Drapeau(new PVector(0,0,0), 100 , 10 , 100, 0.01, 200, 100, 5.5); //70 , 10 , 10
+  d = new Drapeau(positionHautGauche, nbParticules, nbParticulesLargeur, masseParticules, fricAirParticules, longueurRepos, espacement, fricAirTraingle ); //70 , 10 , 10
   vent = new PVector(0,0,0); 
   gravite = new PVector(0,9.8,0); 
   
@@ -45,6 +60,9 @@ void keyPressed(){
     println("Configuration : Correction des déformations à " + correct);
   } 
   if (key == 'r') {
+    d = new Drapeau(positionHautGauche, nbParticules, nbParticulesLargeur, masseParticules, fricAirParticules, longueurRepos, espacement, fricAirTraingle ); //70 , 10 , 10
+  } 
+  if (key == 't') {
     renduTriangle = !renduTriangle;
     println("Configuration : rendu en triangle à " + renduTriangle);
   } 
