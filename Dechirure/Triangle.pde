@@ -46,6 +46,18 @@ class Triangle{
       
     }
 
+    public void triParticule(Particule p){
+        Particule temp;
+        if(p.equals(tri.particule2)){
+           temp = particule2;
+           particule2 = particule1;
+           particule1= temp;
+        } else if(p.equals(tri.particule3)){
+            temp = particule3;
+            particule3 = particule1;
+            particule1= temp;
+        }  
+    }
 
     public void dessiner(){
         

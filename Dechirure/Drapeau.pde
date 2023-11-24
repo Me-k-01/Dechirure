@@ -135,37 +135,49 @@ class Drapeau{
         }
 
         // réaffectation des triangles // TODO : half-edge
-       
-        Particule p2 ;
-        Particule p3 ;
+        
 
         // Le plan de découpe est perpendiculaire au ressort
         // On se sert des angles formé entre la normal du plan de découpe (direction du ressort qui lache) et les segments des triangles
           
+        ArrayList<Ressorts> ress =new ArrayList<Ressort>();
+        boolean isParticule1;
+        boolean isParticule2;
+        for(Ressort res : ressorts) {
+            
+            isParticule1 = res.particule1.equals(p) ;
+            isParticule2 = res.particule2.equals(p)
+
+            if( isParticule1 || res.type == Type.secondaire){
+               
+                ressorts.add(new ressort(np,res.particule2, res.rigidite, res.longRep,res.type) );
+                continue;
+            }
+
+            else if( isParticule2 || res.type == Type.secondaire){
+               ressorts.add(new ressort(res.particule1,np, res.rigidite, res.longRep,res.type) );
+               continue;
+            }
+            else if(isParticule1 || isParticule2){
+                ress.add(res);
+
+            }  
+
+        } 
+
         ArrayList<Triangle> triangleDessus= new ArrayList<Triangle>() ;
         ArrayList<Triangle> triangleDessous= new ArrayList<Triangle>() ;
         for(Triangle tri : triangleRelies) { 
-            if (p.equals(tri.particule1)) {
-                p2 = tri.particule2;
-                p3 = tri.particule3;
-                tri.particule1 = np;
-            } else if(p.equals(tri.particule2)){
-                p2 = tri.particule1;
-                p3 = tri.particule3;
-                tri.particule2 = np;
-            } else if(p.equals(tri.particule3)){
-                p2 = tri.particule2;
-                p3 = tri.particule1;
-                tri.particule3 = np;
-            }
 
-            PVector pP1 = PVector.sub(p1.position, p.position).normalize();
-            PVector pP2 = PVector.sub(p2.position, p.position).normalize();
+           tri.triParticule(p);
+
+            PVector pP2 = PVector.sub(tri.particule2.position, p.position).normalize();
+            PVector pP3 = PVector.sub(tri.particule3.position, p.position).normalize();
             
           
             // Test si le triangle est considéré comme au dessus ou en dessous du plan de découpe
-            float angle1 = pP1.dot(normale);
-            float angle2 = pP2.dot(normale);
+            float angle1 = pP2.dot(normale);
+            float angle2 = pP3.dot(normale);
               
               
             if(angle1 >=0 && angle2>=0)
@@ -177,28 +189,23 @@ class Drapeau{
                 if(abs(angle1) > abs(angle2) && angle1 > 0 || abs(angle2) > abs(angle2) && angle2>0  )
                      triangleDessus.add(tri);
                 
-                 if(abs(angle1) > abs(angle2) && angle1 < 0 || abs(angle2) > abs(angle2) && angle2<0  )
+                if(abs(angle1) > abs(angle2) && angle1 < 0 || abs(angle2) > abs(angle2) && angle2<0  )
                      triangleDessous.add(tri);
                 
             }
 
         }
-        ArrayList<Ressorts> ress =new ArrayList<Ressort>();
-        for(Ressort res : ressorts) {
+        for(Triangle tri : triangleRelies) { 
             
-            if(res.particule1.equals(p) || res.type == Type.secondaire){
-               
-                ressorts.add(new ressort(np,res.particule2, res.rigidite, res.longRep,res.type) );
-            }
-
-            else if(res.particule2.equals(p) || res.type == Type.secondaire){
-               ressorts.add(new ressort(res.particule1,np, res.rigidite, res.longRep,res.type) );
-
-            }
-            else   
+           
 
 
-        } 
+
+
+        }
+        
+
+
 
         // TODO : les ressorts tertiaire doivent être pris en compte
         // On peu se servir du ressort pour connaitre le ressort tertiaire a peter
