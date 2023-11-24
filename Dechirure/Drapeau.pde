@@ -4,6 +4,7 @@ class Drapeau{
     public int longueur;
     public int largeur;
     
+    public float longueurRepos;
     public PVector position;
     
     public ArrayList<Ressort> ressorts = new ArrayList<Ressort>();
@@ -17,7 +18,8 @@ class Drapeau{
         position = p;//position du coin superieur gauche
         longueur = l;
         largeur = nbParticules / longueur;
-        
+        longueurRepos= longRep;
+
         if(distance > longRep)
             print("une erreur\n");// ("longeur au repos trop petite ");
         
@@ -133,31 +135,68 @@ class Drapeau{
         }
 
         // réaffectation des triangles // TODO : half-edge
+       
         Particule p2 ;
         Particule p3 ;
 
         // Le plan de découpe est perpendiculaire au ressort
         // On se sert des angles formé entre la normal du plan de découpe (direction du ressort qui lache) et les segments des triangles
+          
+        ArrayList<Triangle> triangleDessus= new ArrayList<Triangle>() ;
+        ArrayList<Triangle> triangleDessous= new ArrayList<Triangle>() ;
         for(Triangle tri : triangleRelies) { 
             if (p.equals(tri.particule1)) {
                 p2 = tri.particule2;
                 p3 = tri.particule3;
+                tri.particule1 = np;
             } else if(p.equals(tri.particule2)){
                 p2 = tri.particule1;
                 p3 = tri.particule3;
+                tri.particule2 = np;
             } else if(p.equals(tri.particule3)){
                 p2 = tri.particule2;
                 p3 = tri.particule1;
+                tri.particule3 = np;
             }
 
             PVector pP1 = PVector.sub(p1.position, p.position).normalize();
             PVector pP2 = PVector.sub(p2.position, p.position).normalize();
-
+            
+          
             // Test si le triangle est considéré comme au dessus ou en dessous du plan de découpe
             float angle1 = pP1.dot(normale);
             float angle2 = pP2.dot(normale);
+              
+              
+            if(angle1 >=0 && angle2>=0)
+                triangleDessus.add(tri);
+            else if (angle1<0 && angle2<0 )
+                triangleDessous.add(tri);
+            else {
+                
+                if(abs(angle1) > abs(angle2) && angle1 > 0 || abs(angle2) > abs(angle2) && angle2>0  )
+                     triangleDessus.add(tri);
+                
+                 if(abs(angle1) > abs(angle2) && angle1 < 0 || abs(angle2) > abs(angle2) && angle2<0  )
+                     triangleDessous.add(tri);
+                
+            }
 
+        }
+        ArrayList<Ressorts> ress =new ArrayList<Ressort>();
+        for(Ressort res : ressorts) {
             
+            if(res.particule1.equals(p) || res.type == Type.secondaire){
+               
+                ressorts.add(new ressort(np,res.particule2, res.rigidite, res.longRep,res.type) );
+            }
+
+            else if(res.particule2.equals(p) || res.type == Type.secondaire){
+               ressorts.add(new ressort(res.particule1,np, res.rigidite, res.longRep,res.type) );
+
+            }
+            else   
+
 
         } 
 
