@@ -3,7 +3,8 @@ class Triangle{
     public Particule particule1;
     public Particule particule2;
     public Particule particule3;
-
+    
+    public boolean colo = true;
     public float amortissementAir;
     public PVector normale = new PVector(0,0,0);
 
@@ -48,16 +49,29 @@ class Triangle{
 
     public void triParticule(Particule p){
         Particule temp;
-        if(p.equals(tri.particule2)){
+        if(p.equals(particule2)){
            temp = particule2;
            particule2 = particule1;
            particule1= temp;
-        } else if(p.equals(tri.particule3)){
+        } else if(p.equals(particule3)){
             temp = particule3;
             particule3 = particule1;
             particule1= temp;
         }  
     }
+
+    public boolean appartient(Particule p){
+        return particule1.equals(p)|| particule2.equals(p)||particule3.equals(p);
+    }
+
+    public boolean appartient(Particule p1 , Particule p2){
+        
+        boolean ap1 = particule1.equals(p1)|| particule2.equals(p1)||particule3.equals(p1);
+        boolean ap2 = particule1.equals(p2)|| particule2.equals(p2)||particule3.equals(p2);
+
+        return ap1 && ap2;
+    }
+
 
     public void dessiner(){
         
@@ -66,16 +80,13 @@ class Triangle{
         particule3.dessiner(2);
         
         stroke(0);
-        line(particule1.position.x ,particule1.position.y,particule1.position.z,
-             particule2.position.x ,particule2.position.y,particule2.position.z);
-
-        line(particule1.position.x ,particule1.position.y,particule1.position.z,
-            particule3.position.x ,particule3.position.y,particule3.position.z);
-
-        line(particule2.position.x ,particule2.position.y,particule2.position.z,
-             particule3.position.x ,particule3.position.y,particule3.position.z);
+       
         
-        fill(127,25,69);
+        if(colo)
+          fill(127,25,69);
+        else
+          fill(32,185,83);
+          
         beginShape(TRIANGLES);
         vertex(particule1.position.x ,particule1.position.y,particule1.position.z);
         vertex(particule2.position.x ,particule2.position.y,particule2.position.z);

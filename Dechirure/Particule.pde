@@ -9,6 +9,7 @@ class Particule{
     public float amortissementAir;
     
     public boolean  statique = false;
+    public boolean colo =false;
     
     
     public Particule(PVector p0, PVector v0, float m, float aa) {
@@ -49,10 +50,12 @@ class Particule{
         PVector.add(PVector.mult(gravite,masse),f, forceExterne);
     }
     
+
+    
     public void dessiner(float radius) {
         translate(position.x,position.y,position.z);
         
-        if (statique)
+        if (statique || colo)
             fill(255,0,0);
         else 
             fill(59,157,32);

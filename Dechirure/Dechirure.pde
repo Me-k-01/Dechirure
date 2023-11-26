@@ -8,12 +8,12 @@ float dt = 0.001f;
 
 PVector positionHautGauche= new PVector(0,0,0);
 
-int nbParticules =100;
-int nbParticulesLargeur=10;
-float masseParticules=100;
+int nbParticules =20;
+int nbParticulesLargeur=5;
+float masseParticules=10;
 float fricAirParticules=0.01f;
 
-float longueurRepos=200;
+float longueurRepos=100;
 float espacement=100;
 
 float fricAirTraingle = 5.5f;
@@ -69,6 +69,11 @@ void keyPressed(){
   if(key == 'p'){//pause
     pause = !pause;
     println("Configuration : Pause à " + pause);
+  }
+  
+  if(key == 's'){//pause
+    
+    d.découpageMasse(d.particules.get(6),d.ressorts.get(3));//
   }
   
 }

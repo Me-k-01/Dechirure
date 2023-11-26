@@ -17,7 +17,9 @@ class Ressort{
     public Particule particule2;
     
     private float tc; // Taux de déformation critique (entre 0 et 1)
-    private float distPrecedant;
+    private float distPrecedent;
+    
+    public boolean colo =true;
     
     private Type type;
     
@@ -28,9 +30,10 @@ class Ressort{
         particule2 = p2;
         type = t;
         tc = 0.0001f; // Taux de deformation critique 
+        distPrecedent = l;
     }
     
-    public void corrige(float dt) { // Corrige sur un pas de temps donné les élongations //<>// //<>//
+    public void corrige(float dt) { // Corrige sur un pas de temps donné les élongations //<>// //<>// //<>//
         if (type == Type.secondaire)
           return;
           
@@ -38,7 +41,7 @@ class Ressort{
         float dist = p1P2.mag();
         
         // Calculer le taux de deformation
-        float deformation = dist - distPrecedant;
+        float deformation = dist - distPrecedent;
         
         // Si la deformation d'un ressort ne dépasse pas le taux de déformation critique, il n'y a rien a faire
         if (abs(deformation) <= tc*longueurRepos) return; 
@@ -87,7 +90,7 @@ class Ressort{
         PVector p1P2 = PVector.sub(particule2.position, particule1.position);
         
         float dist = p1P2.mag();
-        distPrecedant = dist; // On sauvegarde les distances pour pouvoir calculer le taux de deformation de ce pas de temps, dans la procédure dynamique inverse
+        distPrecedent = dist; // On sauvegarde les distances pour pouvoir calculer le taux de deformation de ce pas de temps, dans la procédure dynamique inverse
         
         PVector f = PVector.mult(p1P2,(longueurRepos - dist) * - rigidite );
         //print(dist+"\n");
@@ -102,16 +105,24 @@ class Ressort{
           particule1.forceExterne.add(f);
         }*/
     }
+
+    public boolean relie(Particule p1, Particule p2){
+      return (particule1.equals(p1) && particule2.equals(p2))  || (particule2.equals(p1) && particule1.equals(p2));
+    }
     
     public void dessiner() {
         
-        particule1.dessiner(10);
-        particule2.dessiner(10);
-        stroke(0);
+        particule1.dessiner(2);
+        particule2.dessiner(2);
+        
+        if(colo)
+          stroke(0);
+        else
+          stroke(0,0,255);
         
         PVector p1P2 = PVector.sub(particule2.position, particule1.position);
         float dist = p1P2.mag();
-        float deformation = dist - distPrecedant;
+        float deformation = dist - distPrecedent;
         
        
         if (abs(deformation) > tc*longueurRepos) 
