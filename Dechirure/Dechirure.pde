@@ -8,13 +8,13 @@ float dt = 0.001f;
 
 PVector positionHautGauche= new PVector(0,0,0);
 
-int nbParticules =20;
-int nbParticulesLargeur=5;
-float masseParticules=10;
+int nbParticules =150;
+int nbParticulesLargeur=15;
+float masseParticules=5;
 float fricAirParticules=0.01f;
 
-float longueurRepos=100;
-float espacement=100;
+float longueurRepos=50;
+float espacement=50;
 
 float fricAirTraingle = 5.5f;
 
@@ -27,6 +27,8 @@ boolean pause = false;
 boolean renduTriangle = true;
 boolean correct = true;
 
+
+int preset=0;
 
 void genereVent(float n) {
   vent.x = random(0,5);
@@ -72,8 +74,11 @@ void keyPressed(){
   }
   
   if(key == 's'){//pause
-    
-    d.découpageMasse(d.particules.get(6),d.ressorts.get(3));//
+  
+  for(int i = 60 ; i<74 ;i++)
+      d.découpageMasse(d.particules.get(i),d.ressorts.get(4));//
+     
+   
   }
   
 }
@@ -82,7 +87,7 @@ void draw() {
   background(200);
   
   d.dessiner(renduTriangle);
-  genereVent(10);
+  genereVent(5);
   
   if(!pause)
     for(float i = 0; i < 0.1f; i+= dt){

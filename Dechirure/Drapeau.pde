@@ -65,9 +65,9 @@ class Drapeau{
                       ressorts.add(new Ressort(particules.get(i), particules.get(i + 1 - longueur), rigiditeDiag, longRep*sqrt(2.f), Type.diagonale ));
                 if(lon && lar)
                      ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur + 1), rigiditeDiag, longRep*sqrt(2.f), Type.diagonale ));
-                if(x < longueur-2)
+               if(x < longueur-2)
                    ressorts.add(new Ressort(particules.get(i), particules.get(i + 2), rigiditeSecond, longRep*2.f,  Type.secondaire ));
-                if(y < largeur-2)
+               if(y < largeur-2)
                    ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur*2), rigiditeSecond, longRep*2.f, Type.secondaire ));
             }
         }
@@ -211,14 +211,14 @@ class Drapeau{
         PVector normale = PVector.sub(r.particule1.position , r.particule2.position).normalize();
         // Duplication de la masse
     
-        Particule np = new Particule(p.position, p.velocite, p.masse/2, p.amortissementAir);
+        Particule np = new Particule(p.position.copy(), p.velocite.copy(), p.masse/2, p.amortissementAir);
         particules.add(np);
         np.position.sub(normale);
         
         p.masse = p.masse/2;
         //<>// //<>//
-        // Rechercher les triangles qui sont lié au point qui doit être scindé // TODO : faire ca en plus rapide. //<>// //<>//
-        ArrayList<Triangle> triangleRelies =rechercheTriangle(p); //<>// //<>//
+        // Rechercher les triangles qui sont lié au point qui doit être scindé // TODO : faire ca en plus rapide. //<>//
+        ArrayList<Triangle> triangleRelies =rechercheTriangle(p);  //<>//
         // réaffectation des triangles // TODO : half-edge
         
 
@@ -245,8 +245,11 @@ class Drapeau{
                         if(autre != null)
                             triangleRelies.add(autre);
                     }
-                    else
-                    ressorts.add(new Ressort(np,res.particule2,res.rigidite,res.longueurRepos,res.type));
+                    else{
+                      Ressort rr = new Ressort(np,res.particule2,res.rigidite,res.longueurRepos,res.type);
+                       ressorts.add(rr);
+                        ress.add(rr);
+                    }
                 }
             }
 
@@ -260,8 +263,11 @@ class Drapeau{
                         if(autre != null)
                             triangleRelies.add(autre);
                     }
-                    else
-                        ressorts.add(new Ressort(res.particule1,np,res.rigidite,res.longueurRepos,res.type));
+                    else{
+                        Ressort rr = new Ressort(res.particule1,np,res.rigidite,res.longueurRepos,res.type);
+                        ressorts.add(rr);
+                        ress.add(rr);
+                    }
                 }   
             }    
                 
@@ -354,25 +360,28 @@ class Drapeau{
             
         }
        
-      
+      //cut les ressort secondaire en trop
        
        PVector PointPlan = p.position.copy();
         p.position.add(normale);
         np.colo =true;
+       
         for(Ressort res : ress){
 
-            isParticule1 = res.particule1.equals(p) ; 
-            isParticule2 = res.particule2.equals(p) ;
+            isParticule1 = res.particule1.equals(p) || res.particule1.equals(np)  ; 
+            isParticule2 = res.particule2.equals(p) || res.particule2.equals(np)  ;
 
-            int signe1 = PVector.sub(res.particule1.position,PointPlan).normalize().dot(normale)>0 ? 1 :-1;
-            int signe2 = PVector.sub(res.particule2.position,PointPlan).normalize().dot(normale)>0 ? 1:-1;
-            if( ( res.type == Type.secondaire && signe1 != signe2 ) || (  res.type == Type.secondaire &&  !isParticule1 && !isParticule2)  )
+            int signe1 = PVector.sub(res.particule1.position,PointPlan).normalize().dot(normale)>0 ? -1 :1;
+            int signe2 = PVector.sub(res.particule2.position,PointPlan).normalize().dot(normale)>0 ? -1:1;
+            
+            if( ( res.type == Type.secondaire && signe1 != signe2 ) ||(res.type == Type.secondaire && !isParticule1 && !isParticule1)  )
                 ressorts.remove(res);
         }
 
 
-        np.position.add(normale);
+   
         p.position.sub(normale);
+        np.position.add(normale);
         // TODO : les ressorts tertiaire doivent être pris en compte
         // On peu se servir du ressort pour connaitre le ressort tertiaire a peter
         // Si un de ses ressorts passe par dessus le plan de découpe, il faut aussi le détruire.
