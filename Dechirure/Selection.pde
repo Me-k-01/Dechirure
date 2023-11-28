@@ -34,9 +34,9 @@ class Selection {
         updateViewport();
  
         //System.out.println("camPos : x : "+camPos.x+", y : " + camPos.y + ", z : " + camPos.z);
-        System.out.println("hautGauche : x : "+hautGauche.x+", y : " + hautGauche.y + ", z : " + hautGauche.z);
-        System.out.println("horiVec : x : "+horiVec.x+", y : " + horiVec.y + ", z : " + horiVec.z);
-        System.out.println("vertiVec : x : "+vertiVec.x+", y : " + vertiVec.y + ", z : " + vertiVec.z); 
+        System.out.println("hautGauche : x : " + hautGauche.x + ", y : " + hautGauche.y + ", z : " + hautGauche.z);
+        System.out.println("horiVec : x : " + horiVec.x + ", y : " + horiVec.y + ", z : " + horiVec.z);
+        System.out.println("vertiVec : x : " + vertiVec.x + ", y : " + vertiVec.y + ", z : " + vertiVec.z); 
         System.out.println("camX : " + camX);
         System.out.println("camY : " + camY);
         

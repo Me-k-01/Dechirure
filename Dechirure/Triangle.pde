@@ -14,19 +14,18 @@ class Triangle{
         particule3 = p3; 
         amortissementAir = aa;
 
-        calculerNormale();
-
-
+        calculerNormale(); 
     }
 
     public void calculerNormale(){
 
-        PVector p1P2 = PVector.sub(particule2.position , particule1.position);
-        PVector p1P3 = PVector.sub(particule3.position , particule1.position);
+        PVector p1P2 = PVector.sub(particule2.position, particule1.position);
+        PVector p1P3 = PVector.sub(particule3.position, particule1.position);
 
-        PVector.cross(p1P2,p1P3,normale);
+        PVector.cross(p1P2,p1P3,normale);  
         normale.normalize();
     }
+
     public void calculerForces(){
       
         calculerNormale();
@@ -97,6 +96,39 @@ class Triangle{
         
     }
     
-    
+    // Retourne le point d'intersection avec le triangle
+    // renvoie null s'il n'y a pas d'intersection
+    public float intersect(Ray rayon) {
+        final float EPS = 0.0000001f;
+        PVector p1P2 = PVector.sub(particule2.position, particule1.position);
+        PVector p1P3 = PVector.sub(particule3.position, particule1.position);
+        
+        PVector h, s, q;
+        h = rayon.dir.cross(p1P3);
+
+        final float a = PVector.dot(p1P2, h);
+        if (Math.abs(a) < EPS)
+            return -1.f; // Parallèle au triangle
+
+        final float f = 1.0f/a;
+        s = PVector.sub(rayon.pos, particule1.position);
+        float u = f * PVector.dot(s, h);
+        if (u < 0.f || u > 1.f) 
+            return -1.f;
+         
+        q = s.cross(p1P2);
+        float v = f * PVector.dot(rayon.dir, q);
+        if (v < 0.f || u+v > 1.f) 
+            return -1.f;
+ 
+
+        // On calcul t l'endroit d'intersection au rayon
+        final float t = f * PVector.dot(p1P3, q);
+        if (t > EPS) // Il y a une intersection 
+            return t;
+        else  // Pas d'intersection.
+            return -1.f;
+        
+    }
 
 }

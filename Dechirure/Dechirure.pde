@@ -99,7 +99,12 @@ void mousePressed() {
 
 
     // Lancement du rayon sur les triangles
-    //for (Triangle tri : d.triangles) {}
+    for (Triangle tri : d.triangles) {
+      float t = tri.intersect(rayon);
+      if (t != -1.f) { // On a intersection
+        tri.colo = true;
+      }
+    }
   
 
     // 
