@@ -129,8 +129,8 @@ class Ressort{
           stroke(255,0,0);
           
           
-       line(particule1.position.x ,particule1.position.y,particule1.position.z,
-             particule2.position.x ,particule2.position.y,particule2.position.z);
+       line(particule1.position.x, particule1.position.y, particule1.position.z,
+             particule2.position.x, particule2.position.y, particule2.position.z);
         
     }
 }

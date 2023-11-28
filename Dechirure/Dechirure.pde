@@ -15,6 +15,7 @@ boolean renduTriangle = true;
 boolean correct = true;
    
 Selection selection;
+Ray rayon = new Ray(new PVector(0, 0, 0), new PVector(0, 0, 0)); // Test du rayon
 
 int presetActuel = 0; 
 JSONObject config;
@@ -26,8 +27,7 @@ void genereVent(float n) {
   vent.z = random( - 5,5);
   
   vent.mult(n);
-}
- 
+} 
 void modifVent() { // modifie légèrement le vent au fils des pas de temps
   vent.x += random(0, 0.1);
   vent.z += random(-0.1,0.1);
@@ -87,16 +87,30 @@ void sceneSetup() {
 
 void mousePressed() {
   if (mouseButton == LEFT) {
-    //System.out.println("User tried to grab a triangle.");
-    // Rayon que l'on lance vers un triangle
+    System.out.println("User tried to grab a triangle.");
+    // On genere un rayon à partir du curseur de la souris sur l'écran
+    float x = mouseX;
+    float y = mouseY;
+    // On transforme les coordones en scalaire de 0 à 1
+    x -= width / 2.f;
+    y -= height / 2.f;  
+    x /= (width / 2.f);
+    y /= (height / 2.f);
 
-    // Lancement d'un rayon sur le triangle
+    rayon = selection.genereRayon(x, y);
+    System.out.print("x : " + rayon.dir.x);
+    System.out.print(", y : " + rayon.dir.y);
+    System.out.println(", z : " + rayon.dir.z);
+
+
+
+    // Lancement du rayon sur les triangles
     //for (Triangle tri : d.triangles) {}
-
+  
 
     // 
-    System.out.println("deplacement : " + d.bouge);
-    d.bouge = ! d.bouge;
+    //System.out.println("deplacement : " + d.bouge);
+    //d.bouge = ! d.bouge;
 
     //d.changeControle(config.getInt("triangle_controle"));
   }  
@@ -151,6 +165,16 @@ void draw() {
   if(!pause)
     for(float i = 0; i < 0.1f; i+= dt){
       d.mettreAJour(dt, correct);
-    }
+    }  
+
+  // Test du rayon
+  stroke(0);
+  translate(rayon.pos.x, rayon.pos.y, rayon.pos.z); 
+  box(4);
+  translate(- rayon.pos.x, - rayon.pos.y, - rayon.pos.z); 
+  line(
+    rayon.pos.x, rayon.pos.y, rayon.pos.z, 
+    rayon.pos.x + rayon.dir.x * 1000, rayon.pos.y + rayon.dir.y * 1000, rayon.pos.z + rayon.dir.z * 1000
+  );
     
 }

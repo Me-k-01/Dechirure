@@ -31,7 +31,7 @@ class Selection {
  
 
     // Génére un rayon depuis une coordonné de la caméra
-    public Ray select(PVector hautGauche, int camX, int camY) { 
+    public Ray genereRayon(float camX, float camY) { 
         updateViewport();
 
         // Position du point du plan dans l'espace monde

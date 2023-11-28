@@ -90,9 +90,9 @@ class Triangle{
           fill(127,25,69);
           
         beginShape(TRIANGLES);
-        vertex(particule1.position.x ,particule1.position.y,particule1.position.z);
-        vertex(particule2.position.x ,particule2.position.y,particule2.position.z);
-        vertex(particule3.position.x ,particule3.position.y,particule3.position.z);
+            vertex(particule1.position.x ,particule1.position.y,particule1.position.z);
+            vertex(particule2.position.x ,particule2.position.y,particule2.position.z);
+            vertex(particule3.position.x ,particule3.position.y,particule3.position.z);
         endShape();
         
     }

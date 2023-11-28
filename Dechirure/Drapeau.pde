@@ -415,8 +415,7 @@ class Drapeau{
         particules.get(i).dessiner(10);
     }
         */
-        if (renduTriangle) {
-
+        if (renduTriangle) { 
             for (Triangle tri : triangles) { // Triangle tri : triangles  
                 tri.dessiner();
             }
