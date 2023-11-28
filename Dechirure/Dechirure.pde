@@ -14,6 +14,8 @@ boolean pause = false;
 boolean renduTriangle = true;
 boolean correct = true;
    
+Selection selection;
+
 int presetActuel = 0; 
 JSONObject config;
 JSONArray presets;
@@ -39,13 +41,20 @@ void setup() {
   frameRate(30);
   
   cam = new PeasyCam(this,500);
-  
+  //camera.setSuppressRollRotationMode();
   cam.setMinimumDistance(50);
   cam.setMaximumDistance(1000);
   cam.setSuppressRollRotationMode(); 
   // Changement des contrôles de la caméra, pour permettre d'attraper des triangles avec le clique gauche
   cam.setLeftDragHandler(null); 
   cam.setRightDragHandler(cam.getRotateDragHandler());
+
+  float fov = 1.f;
+  float aspect = (float)width / (float)height; 
+  float nearClip = 1;
+  float farClip = 100000;
+  perspective(fov, aspect, nearClip, farClip);  
+  selection = new Selection(fov, aspect, nearClip);
 
   sceneSetup();
 }

@@ -31,14 +31,17 @@ class Triangle{
       
         calculerNormale();
         
-        PVector surf= PVector.mult( PVector.add(particule1.velocite, 
-                                      PVector.add(particule2.velocite,particule3.velocite) 
-                                      )
-                         , (1.f/3.f));
+        PVector surf= PVector.mult( 
+            PVector.add(
+                particule1.velocite, 
+                PVector.add(particule2.velocite, particule3.velocite)),
+            (1.f/3.f)
+        );
+
         PVector v = PVector.sub(vent,surf); 
         
-        PVector f = PVector.mult( 
-            PVector.mult(  normale,  ( v.dot(normale)* amortissementAir)), 
+        PVector f = PVector.mult(
+            PVector.mult( normale, (v.dot(normale) * amortissementAir)), 
             (1.f/3.f)
         );
         particule1.forceExterne.add(f);
