@@ -9,16 +9,17 @@ class Drapeau{
     
     public ArrayList<Ressort> ressorts = new ArrayList<Ressort>();
     public ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-    
-    
-    public Drapeau(PVector p, int nbParticules, int l, float masses, float amortissementAirMasses, float longRep, float distance, float amortissementAirTri, JSONArray particules_statiques) {
-        
+    public int triangleControle = 0;
+    public boolean bouge = false;
+
+    public Drapeau(PVector p, int nbParticules, int l, float masses, float amortissementAirMasses, float longRep, float distance, float amortissementAirTri, JSONArray particulesStatiques) {
+         
         // generation des particules
         //============================================
         position = p;//position du coin superieur gauche
         longueur = l;
         largeur = nbParticules / longueur;
-        longueurRepos= longRep;
+        longueurRepos= longRep; 
 
         if(distance > longRep)
             print("une erreur\n");// ("longeur au repos trop petite ");
@@ -35,8 +36,8 @@ class Drapeau{
         }
 
         // contraintes statiques 
-        for(int i =0 ; i < particules_statiques.size(); i++)
-            particules.get(particules_statiques.getInt(i)).statique = true;
+        for(int i =0 ; i < particulesStatiques.size(); i++)
+            particules.get(particulesStatiques.getInt(i)).statique = true;
 
 
         //============================================
@@ -44,11 +45,11 @@ class Drapeau{
         //============================================
 
 
-       boolean lon,lar;
+        boolean lon,lar;
   
  
-      for(int y = 0 ; y < largeur; y++){
-          for(int x = 0; x < longueur; x++ ){
+        for(int y = 0 ; y < largeur; y++){
+            for(int x = 0; x < longueur; x++ ){
                 // Pour chaque masses on ajoute les ressorts sur un seul sens
 
                 lon = x <longueur - 1;
@@ -60,13 +61,13 @@ class Drapeau{
                 if(lar)
                     ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur), rigiditePrincipale, longRep , Type.principaux ));
                 if(y > 0 && lon)
-                      ressorts.add(new Ressort(particules.get(i), particules.get(i + 1 - longueur), rigiditeDiag, longRep*sqrt(2.f), Type.diagonale ));
+                        ressorts.add(new Ressort(particules.get(i), particules.get(i + 1 - longueur), rigiditeDiag, longRep*sqrt(2.f), Type.diagonale ));
                 if(lon && lar)
-                     ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur + 1), rigiditeDiag, longRep*sqrt(2.f), Type.diagonale ));
-               if(x < longueur-2)
-                   ressorts.add(new Ressort(particules.get(i), particules.get(i + 2), rigiditeSecond, longRep*2.f,  Type.secondaire ));
-               if(y < largeur-2)
-                   ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur*2), rigiditeSecond, longRep*2.f, Type.secondaire ));
+                        ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur + 1), rigiditeDiag, longRep*sqrt(2.f), Type.diagonale ));
+                if(x < longueur-2)
+                    ressorts.add(new Ressort(particules.get(i), particules.get(i + 2), rigiditeSecond, longRep*2.f,  Type.secondaire ));
+                if(y < largeur-2)
+                    ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur*2), rigiditeSecond, longRep*2.f, Type.secondaire ));
             }
         }
 
@@ -90,10 +91,23 @@ class Drapeau{
                 }
             } 
         }  
+        changeControle(triangleControle);
     }
     
-    public void forces() {
-        
+    public void changeControle(int triangleControle) {
+        triangles.get(this.triangleControle).colo = false;
+        this.triangleControle = triangleControle;
+        triangles.get(triangleControle).colo = true;
+    }
+
+    public void forces() { 
+        if (bouge) {
+            Triangle tri = triangles.get(triangleControle);
+            PVector f = new PVector(10, 1, 0);
+            tri.particule1.velocite.add(f);
+            tri.particule2.velocite.add(f);
+            tri.particule3.velocite.add(f); 
+        }
         // 3 boucles sur chaque tableau
         //particules
         for (Particule particule : particules) 
@@ -127,12 +141,10 @@ class Drapeau{
                 tri.triParticule(p);
             }
         }
-
         return triangleRelies;
-      
     }
 
-    private boolean ParticuleDedans(Particule p ,ArrayList<Triangle> list ){
+    private boolean particuleDedans(Particule p ,ArrayList<Triangle> list ){
         
         
         for(Triangle t : list){
@@ -144,7 +156,7 @@ class Drapeau{
         return false;
     }
     
-    private boolean DejaRelie(Particule p1,Particule p2 ,ArrayList<Ressort> resList){
+    private boolean dejaRelie(Particule p1,Particule p2 ,ArrayList<Ressort> resList){
         for(Ressort re : resList){   //<>//
 
             if(re.relie(p1,p2))
@@ -153,7 +165,6 @@ class Drapeau{
 
         return false;
     }
-
 
     private Triangle chercheAutreMoiterDeCarre(ArrayList<Triangle> list1, ArrayList<Triangle> list2){
 
@@ -168,7 +179,6 @@ class Drapeau{
         return null;
 
     }
-
 
     private ArrayList<Ressort> ChercheRessortAuDessus(Particule p , ArrayList<Ressort> resList){
         ArrayList<Ressort> ress = new   ArrayList<Ressort>(); 
@@ -237,7 +247,7 @@ class Drapeau{
             if(isParticule1 ){
                 ress.add(res); //on ajoute le ressort
 
-                if(! ParticuleDedans(res.particule2, triangleRelies)){ // si ce ressort a relie la particule avec une particule n'apparenant a aucun triangle deja recupere
+                if(! particuleDedans(res.particule2, triangleRelies)){ // si ce ressort a relie la particule avec une particule n'apparenant a aucun triangle deja recupere
                     if(res.type !=Type.secondaire){
                         Triangle autre = chercheAutreMoiterDeCarre(triangleRelies, rechercheTriangle(res.particule2));//on cherche le triangle manquant
                         if(autre != null)
@@ -254,7 +264,7 @@ class Drapeau{
             if(isParticule2 ){
                 ress.add(res);
                 
-                if(! ParticuleDedans(res.particule1, triangleRelies)){ 
+                if(! particuleDedans(res.particule1, triangleRelies)){ 
 
                     if(res.type !=Type.secondaire){
                         Triangle autre = chercheAutreMoiterDeCarre(triangleRelies, rechercheTriangle(res.particule1));
@@ -332,7 +342,7 @@ class Drapeau{
             } 
            if(tri.appartient(p))
                 tri.particule1=np;
-            tri.colo = false;
+            //tri.colo = false;
         }
         
         // on recreer les ressorts neccesaire pour la particule
@@ -344,13 +354,13 @@ class Drapeau{
                 
                 
                 if(isParticule1 && tri.appartient(res.particule2) ){
-                    if(! DejaRelie(p,res.particule2,ress))
+                    if(! dejaRelie(p,res.particule2,ress))
                         ressorts.add(new Ressort(p,res.particule2, res.rigidite, res.longueurRepos,res.type));
 
 
                 }
                 if(isParticule2 && tri.appartient(res.particule1)){
-                    if(! DejaRelie(p,res.particule1,ress))
+                    if(! dejaRelie(p,res.particule1,ress))
                         ressorts.add(new Ressort(res.particule1,p, res.rigidite, res.longueurRepos,res.type));
                 }
             
@@ -358,11 +368,11 @@ class Drapeau{
             
         }
        
-      //cut les ressort secondaire en trop
+        //cut les ressort secondaire en trop
        
-       PVector PointPlan = p.position.copy();
+        PVector PointPlan = p.position.copy();
         p.position.add(normale);
-        np.colo =true;
+        np.colo = true;
        
         for(Ressort res : ress){
 
@@ -406,7 +416,8 @@ class Drapeau{
     }
         */
         if (renduTriangle) {
-            for (Triangle tri : triangles) { 
+
+            for (Triangle tri : triangles) { // Triangle tri : triangles  
                 tri.dessiner();
             }
         } else { 

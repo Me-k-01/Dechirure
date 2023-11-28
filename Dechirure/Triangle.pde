@@ -4,7 +4,7 @@ class Triangle{
     public Particule particule2;
     public Particule particule3;
     
-    public boolean colo = true;
+    public boolean colo = false;
     public float amortissementAir;
     public PVector normale = new PVector(0,0,0);
 
@@ -43,8 +43,7 @@ class Triangle{
         );
         particule1.forceExterne.add(f);
         particule2.forceExterne.add(f);
-        particule3.forceExterne.add(f);
-      
+        particule3.forceExterne.add(f); 
     }
 
     public void triParticule(Particule p){
@@ -83,9 +82,9 @@ class Triangle{
        
         
         if(colo)
-          fill(127,25,69);
+          fill(32,185,83); 
         else
-          fill(32,185,83);
+          fill(127,25,69);
           
         beginShape(TRIANGLES);
         vertex(particule1.position.x ,particule1.position.y,particule1.position.z);

@@ -43,7 +43,10 @@ void setup() {
   cam.setMinimumDistance(50);
   cam.setMaximumDistance(1000);
   cam.setSuppressRollRotationMode(); 
-  
+  // Changement des contrôles de la caméra, pour permettre d'attraper des triangles avec le clique gauche
+  cam.setLeftDragHandler(null); 
+  cam.setRightDragHandler(cam.getRotateDragHandler());
+
   sceneSetup();
 }
 
@@ -69,7 +72,27 @@ void sceneSetup() {
   vent = new PVector(0,0,0); 
   gravite = new PVector(0,9.8,0);  
   genereVent(config.getFloat("puissance_du_vent"));
+  d.changeControle(config.getInt("triangle_controle"));
 }
+
+
+void mousePressed() {
+  if (mouseButton == LEFT) {
+    //System.out.println("User tried to grab a triangle.");
+    // Rayon que l'on lance vers un triangle
+
+    // Lancement d'un rayon sur le triangle
+    //for (Triangle tri : d.triangles) {}
+
+
+    // 
+    System.out.println("deplacement : " + d.bouge);
+    d.bouge = ! d.bouge;
+
+    //d.changeControle(config.getInt("triangle_controle"));
+  }  
+}
+
 
 void keyPressed(){
   if (key == 'c') {
@@ -81,7 +104,7 @@ void keyPressed(){
   } 
   if (key == 't') {
     renduTriangle = !renduTriangle;
-    println("Configuration : rendu en triangle à " + renduTriangle);
+    println("Configuration : Rendu en triangle à " + renduTriangle);
   } 
   if(key == 'p') { // pause
     pause = !pause;

@@ -16,7 +16,8 @@
 
             "masses_statiques" : [ 
                 0, 60
-            ],
+            ], 
+            "triangle_controle": 8,
 
             "rigidite_principale" : 1,
             "rigidite_diagonale" : 0.1,
@@ -38,6 +39,7 @@
             "masses_statiques" : [ 
                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
             ],
+            "triangle_controle": 9,
 
             "rigidite_principale" : 10,
             "rigidite_diagonale" : 1,
@@ -59,6 +61,7 @@
             "masses_statiques" : [ 
                 0, 14
             ],
+            "triangle_controle": 9,
 
             "rigidite_principale" : 1,
             "rigidite_diagonale" : 0.1,
