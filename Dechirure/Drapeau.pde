@@ -90,16 +90,9 @@ class Drapeau{
                     }
                 }
             } 
-        }  
-        changeControle(triangleControle);
+        }   
     }
-    
-    public void changeControle(int triangleControle) {
-        triangles.get(this.triangleControle).colo = false;
-        this.triangleControle = triangleControle;
-        triangles.get(triangleControle).colo = true;
-    }
-
+     
     public void forces() { 
         if (bouge) {
             Triangle tri = triangles.get(triangleControle);

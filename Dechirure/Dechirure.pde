@@ -14,8 +14,7 @@ boolean pause = false;
 boolean renduTriangle = true;
 boolean correct = true;
    
-Selection selection;
-Ray rayon = new Ray(new PVector(0, 0, 0), new PVector(0, 0, 0)); // Test du rayon
+Selection selection; 
 
 int presetActuel = 0; 
 JSONObject config;
@@ -80,8 +79,7 @@ void sceneSetup() {
   );
   vent = new PVector(0,0,0); 
   gravite = new PVector(0,9.8,0);  
-  genereVent(config.getFloat("puissance_du_vent"));
-  d.changeControle(config.getInt("triangle_controle"));
+  genereVent(config.getFloat("puissance_du_vent")); 
 }
 
 
@@ -91,31 +89,13 @@ void mousePressed() {
     // On genere un rayon à partir du curseur de la souris sur l'écran
     // Pour cela, on transforme les coordonées en scalaire de 0 à 1  
 
-    rayon = selection.genereRayon((float)mouseX/(float)width, (float)mouseY/(float)height);
+    Ray rayon = selection.genereRayon((float)mouseX/(float)width, (float)mouseY/(float)height);
     //System.out.print("x : " + rayon.dir.x);
     //System.out.print(", y : " + rayon.dir.y);
     //System.out.println(", z : " + rayon.dir.z);
 
-
-
-    // Lancement du rayon sur les triangles
-    int i = 0;
-    for (Triangle tri : d.triangles) {
-      float t = tri.intersect(rayon);
-      
-      if (t != -1.f) { // On a intersection 
-        d.changeControle(i);
-        break;
-      }
-      i++;
-    }
-  
-
-    // 
-    //System.out.println("deplacement : " + d.bouge);
-    //d.bouge = ! d.bouge;
-
-    //d.changeControle(config.getInt("triangle_controle"));
+    // Selection du triangle qui intersect le rayon
+    selection.selectionDuTriangle(d.triangles, rayon);
   }  
 }
 
@@ -169,17 +149,7 @@ void draw() {
     for(float i = 0; i < 0.1f; i+= dt){
       d.mettreAJour(dt, correct);
     }  
-
-  // Test du rayon
-  stroke(0);
-  
-  translate(rayon.pos.x, rayon.pos.y, rayon.pos.z); 
-  box(0.1); 
-  translate(- rayon.pos.x, -rayon.pos.y, - rayon.pos.z); 
-  
-  line(
-    rayon.pos.x, rayon.pos.y, rayon.pos.z, 
-    rayon.pos.x + rayon.dir.x * 100000, rayon.pos.y + rayon.dir.y * 100000, rayon.pos.z + rayon.dir.z * 100000
-  );
+  // Debugage
+  selection.dessin();
     
 }

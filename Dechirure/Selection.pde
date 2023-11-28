@@ -19,15 +19,51 @@ class Selection {
     private PVector horiVec;   // viewport u
     private PVector vertiVec;  // viewport v
 
+    public int triangleControle = -1; // Indice du triangle que l'on controle
+    private Ray rayonDebug = null;
+
     // Pour pouvoir créer un rayon, il nous faut les perspective de la camera
     public Selection(float fov, float focalDist, float aspect) {  
         this.fov = fov; // FOV en radian
         this.focalDist = focalDist; 
         this.aspect = aspect; 
-
+        
         updateViewport();
     }
- 
+    
+    public void selectionDuTriangle(ArrayList<Triangle> triangles, Ray rayon) {
+        int i = 0;
+        float tNear = Float.POSITIVE_INFINITY;
+        int iNear = 0;
+
+        for (Triangle tri : d.triangles) {
+            float t = tri.intersect(rayon);
+            
+            if (t != -1.f) { // On a intersection  
+                // On ne garde que le triangle le plus proche
+                if (tNear > t) {
+                    tNear = t;
+                    iNear = i;
+                }
+            }
+            i++;
+        }
+        System.out.println("tNear" + tNear);
+        // Si jamais on a eu une intersection
+        if (tNear != Float.POSITIVE_INFINITY) {
+            changeControle(triangles, iNear); 
+            this.rayonDebug = rayon;
+            // TODO : calculer le drag
+        }
+    
+    }
+
+    public void changeControle(ArrayList<Triangle> triangles, int triangleControle) {
+        if (this.triangleControle != -1)
+            triangles.get(this.triangleControle).colo = false;
+        this.triangleControle = triangleControle;
+        triangles.get(triangleControle).colo = true;
+    }
 
     // Génére un rayon en projetant une coordonné de la caméra vers l'espace monde
     public Ray genereRayon(float camX, float camY) { 
@@ -81,6 +117,20 @@ class Selection {
             PVector.mult(vertiVec, 0.5f), // Hauteur/2
             PVector.mult(horiVec, -0.5f)) // -Largeur/2
         ); // mid + vV / 2 + -vU/2 
+    }
+
+    public void dessin() { // Dessin pour le debugage
+        if (rayonDebug == null) return; 
+        stroke(0); 
+
+        translate(rayonDebug.pos.x, rayonDebug.pos.y, rayonDebug.pos.z); 
+        box(0.1); 
+        translate(- rayonDebug.pos.x, -rayonDebug.pos.y, - rayonDebug.pos.z); 
+        
+        line(
+            rayonDebug.pos.x, rayonDebug.pos.y, rayonDebug.pos.z, 
+            rayonDebug.pos.x + rayonDebug.dir.x * 100000, rayonDebug.pos.y + rayonDebug.dir.y * 100000, rayonDebug.pos.z + rayonDebug.dir.z * 100000
+        );
     }
 
 
