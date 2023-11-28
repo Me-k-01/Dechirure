@@ -1,0 +1,68 @@
+
+{
+    "presets": [
+
+        {  
+            "position": [0.0, 0.0, 0.0],
+            "nombre_de_particules": 70,
+            "taille_du_drapeau": 10,
+            "masses" : 10,
+            "amortissement_air_masses" : 0.01,
+            "longueur_repos" : 100,
+            "espacement" : 100,
+
+            "amortissement_air_tri" : 5.5, 
+            "puissance_du_vent" : 20,
+
+            "masses_statiques" : [ 
+                0, 60
+            ],
+
+            "rigidite_principale" : 1,
+            "rigidite_diagonale" : 0.1,
+            "rigidite_secondaire" : 0.1
+        },
+        {  
+            "position": [0.0, 0.0, 0.0],
+            "nombre_de_particules": 140,
+            "taille_du_drapeau": 14,
+            "masses" : 5,
+            "amortissement_air_masses" : 0.01,
+            "longueur_repos" : 50,
+            "espacement" : 50,
+
+            "amortissement_air_tri" : 5.5,
+
+            "puissance_du_vent" : 20,
+
+            "masses_statiques" : [ 
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+            ],
+
+            "rigidite_principale" : 10,
+            "rigidite_diagonale" : 1,
+            "rigidite_secondaire" : 1
+        },
+        {  
+            "position": [0.0, 0.0, 0.0],
+            "nombre_de_particules": 150,
+            "taille_du_drapeau": 15,
+            "masses" : 5,
+            "amortissement_air_masses" : 0.01,
+            "longueur_repos" : 50,
+            "espacement" : 50,
+
+            "amortissement_air_tri" : 5.5,
+
+            "puissance_du_vent" : 20,
+
+            "masses_statiques" : [ 
+                0, 14
+            ],
+
+            "rigidite_principale" : 1,
+            "rigidite_diagonale" : 0.1,
+            "rigidite_secondaire" : 0.1
+        }
+    ]
+}

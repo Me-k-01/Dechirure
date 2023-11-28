@@ -11,7 +11,7 @@ class Drapeau{
     public ArrayList<Triangle> triangles = new ArrayList<Triangle>();
     
     
-    public Drapeau(PVector p, int nbParticules, int l, float masses, float amortissementAirMasses, float longRep, float distance, float amortissementAirTri ) {
+    public Drapeau(PVector p, int nbParticules, int l, float masses, float amortissementAirMasses, float longRep, float distance, float amortissementAirTri, JSONArray particules_statiques) {
         
         // generation des particules
         //============================================
@@ -35,10 +35,8 @@ class Drapeau{
         }
 
         // contraintes statiques 
-        particules.get(0).statique = true;
-        particules.get(l-1).statique = true;
-        //if (nbParticules > 2)
-        //    particules.get((largeur - 1) * longueur).statique = true; 
+        for(int i =0 ; i < particules_statiques.size(); i++)
+            particules.get(particules_statiques.getInt(i)).statique = true;
 
 
         //============================================
