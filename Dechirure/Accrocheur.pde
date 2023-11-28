@@ -8,7 +8,7 @@ class Ray {
     }
 }
 
-class Selection { 
+class Accrocheur { 
  
     public float fov;
     public float focalDist; // near Clip
@@ -23,7 +23,7 @@ class Selection {
     private Ray rayonDebug = null;
 
     // Pour pouvoir créer un rayon, il nous faut les perspective de la camera
-    public Selection(float fov, float focalDist, float aspect) {  
+    public Accrocheur(float fov, float focalDist, float aspect) {  
         this.fov = fov; // FOV en radian
         this.focalDist = focalDist; 
         this.aspect = aspect; 
@@ -31,7 +31,9 @@ class Selection {
         updateViewport();
     }
     
-    public void selectionDuTriangle(ArrayList<Triangle> triangles, Ray rayon) {
+    public boolean selectionTriangle(ArrayList<Triangle> triangles, Ray rayon) {
+        this.rayonDebug = rayon;
+
         int i = 0;
         float tNear = Float.POSITIVE_INFINITY;
         int iNear = 0;
@@ -51,10 +53,11 @@ class Selection {
         System.out.println("tNear" + tNear);
         // Si jamais on a eu une intersection
         if (tNear != Float.POSITIVE_INFINITY) {
-            changeControle(triangles, iNear); 
-            this.rayonDebug = rayon;
+            changeControle(triangles, iNear);  
             // TODO : calculer le drag
+            return true;
         }
+        return false;
     
     }
 
@@ -119,7 +122,7 @@ class Selection {
         ); // mid + vV / 2 + -vU/2 
     }
 
-    public void dessin() { // Dessin pour le debugage
+    public void dessinDebug() { // Dessin pour le debugage
         if (rayonDebug == null) return; 
         stroke(0); 
 

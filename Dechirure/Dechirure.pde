@@ -14,7 +14,7 @@ boolean pause = false;
 boolean renduTriangle = true;
 boolean correct = true;
    
-Selection selection; 
+Accrocheur accrocheur; 
 
 int presetActuel = 0; 
 JSONObject config;
@@ -53,7 +53,7 @@ void setup() {
   float nearClip = 1.f;
   float farClip = 100000.f;
   perspective(fov, aspect, nearClip, farClip);  
-  selection = new Selection(fov, aspect, nearClip);
+  accrocheur = new Accrocheur(fov, aspect, nearClip);
 
   sceneSetup();
 }
@@ -89,13 +89,16 @@ void mousePressed() {
     // On genere un rayon à partir du curseur de la souris sur l'écran
     // Pour cela, on transforme les coordonées en scalaire de 0 à 1  
 
-    Ray rayon = selection.genereRayon((float)mouseX/(float)width, (float)mouseY/(float)height);
+    Ray rayon = accrocheur.genereRayon(
+      (float)mouseX/(float)width, 
+      (float)mouseY/(float)height
+    );
     //System.out.print("x : " + rayon.dir.x);
     //System.out.print(", y : " + rayon.dir.y);
     //System.out.println(", z : " + rayon.dir.z);
 
     // Selection du triangle qui intersect le rayon
-    selection.selectionDuTriangle(d.triangles, rayon);
+    accrocheur.selectionTriangle(d.triangles, rayon);
   }  
 }
 
@@ -146,10 +149,9 @@ void draw() {
   modifVent();
   
   if(!pause)
-    for(float i = 0; i < 0.1f; i+= dt){
+    for(float i = 0; i < 0.1f; i+= dt)
       d.mettreAJour(dt, correct);
-    }  
-  // Debugage
-  selection.dessin();
     
+  // Debugage
+  accrocheur.dessinDebug(); 
 }
