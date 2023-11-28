@@ -99,11 +99,15 @@ void mousePressed() {
 
 
     // Lancement du rayon sur les triangles
+    int i = 0;
     for (Triangle tri : d.triangles) {
       float t = tri.intersect(rayon);
-      if (t != -1.f) { // On a intersection
-        tri.colo = true;
+      
+      if (t != -1.f) { // On a intersection 
+        d.changeControle(i);
+        break;
       }
+      i++;
     }
   
 
@@ -168,9 +172,11 @@ void draw() {
 
   // Test du rayon
   stroke(0);
+  
   translate(rayon.pos.x, rayon.pos.y, rayon.pos.z); 
-  box(4);
+  box(0.1); 
   translate(- rayon.pos.x, -rayon.pos.y, - rayon.pos.z); 
+  
   line(
     rayon.pos.x, rayon.pos.y, rayon.pos.z, 
     rayon.pos.x + rayon.dir.x * 100000, rayon.pos.y + rayon.dir.y * 100000, rayon.pos.z + rayon.dir.z * 100000
