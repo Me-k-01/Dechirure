@@ -51,8 +51,8 @@ void setup() {
 
   float fov = 1.f;
   float aspect = (float)width / (float)height; 
-  float nearClip = 1;
-  float farClip = 100000;
+  float nearClip = 1.f;
+  float farClip = 100000.f;
   perspective(fov, aspect, nearClip, farClip);  
   selection = new Selection(fov, aspect, nearClip);
 
@@ -165,10 +165,10 @@ void draw() {
   stroke(0);
   translate(rayon.pos.x, rayon.pos.y, rayon.pos.z); 
   box(4);
-  translate(- rayon.pos.x, - rayon.pos.y, - rayon.pos.z); 
+  translate(- rayon.pos.x, -rayon.pos.y, - rayon.pos.z); 
   line(
     rayon.pos.x, rayon.pos.y, rayon.pos.z, 
-    rayon.pos.x + rayon.dir.x * 1000, rayon.pos.y + rayon.dir.y * 1000, rayon.pos.z + rayon.dir.z * 1000
+    rayon.pos.x + rayon.dir.x * 100000, rayon.pos.y + rayon.dir.y * 100000, rayon.pos.z + rayon.dir.z * 100000
   );
     
 }
