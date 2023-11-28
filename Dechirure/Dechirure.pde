@@ -87,20 +87,14 @@ void sceneSetup() {
 
 void mousePressed() {
   if (mouseButton == LEFT) {
-    System.out.println("User tried to grab a triangle.");
+    System.out.println("User tried to grab a triangle."); 
     // On genere un rayon à partir du curseur de la souris sur l'écran
-    float x = mouseX;
-    float y = mouseY;
-    // On transforme les coordones en scalaire de 0 à 1
-    x -= width / 2.f;
-    y -= height / 2.f;  
-    x /= (width / 2.f);
-    y /= (height / 2.f);
+    // Pour cela, on transforme les coordonées en scalaire de 0 à 1  
 
-    rayon = selection.genereRayon(x, y);
-    System.out.print("x : " + rayon.dir.x);
-    System.out.print(", y : " + rayon.dir.y);
-    System.out.println(", z : " + rayon.dir.z);
+    rayon = selection.genereRayon((float)mouseX/(float)width, (float)mouseY/(float)height);
+    //System.out.print("x : " + rayon.dir.x);
+    //System.out.print(", y : " + rayon.dir.y);
+    //System.out.println(", z : " + rayon.dir.z);
 
 
 
