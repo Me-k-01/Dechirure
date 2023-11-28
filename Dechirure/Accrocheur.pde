@@ -21,6 +21,10 @@ class Accrocheur {
 
     public int triangleControle = -1; // Indice du triangle que l'on controle
     private Ray rayonDebug = null;
+ 
+    // Permet de déplacer le triangle séléctionné selon la souris.
+    // Lorsque null, pas de triangle séléctionné
+    private Ray rayonDepart;
 
     // Pour pouvoir créer un rayon, il nous faut les perspective de la camera
     public Accrocheur(float fov, float focalDist, float aspect) {  
@@ -53,19 +57,27 @@ class Accrocheur {
         System.out.println("tNear" + tNear);
         // Si jamais on a eu une intersection
         if (tNear != Float.POSITIVE_INFINITY) {
-            changeControle(triangles, iNear);  
+            // On démare le déplacement
+            rayonDepart = rayon; 
+            changeControle(triangles, iNear);   
             // TODO : calculer le drag
             return true;
         }
         return false;
     
     }
+  
 
-    public void changeControle(ArrayList<Triangle> triangles, int triangleControle) {
-        if (this.triangleControle != -1)
-            triangles.get(this.triangleControle).colo = false;
+    public void changeControle(ArrayList<Triangle> triangles, int triangleControle) { 
         this.triangleControle = triangleControle;
-        triangles.get(triangleControle).colo = true;
+        triangles.get(triangleControle).colo = true; // Colorie le triangle lorsqu'il est séléctionné
+    }
+
+    public void stopSelection(ArrayList<Triangle> triangles) {
+        if (rayonDepart == null) return; // Cas ou on n'a pas démarer une selection
+        
+        triangles.get(this.triangleControle).colo = false; // Décolorie le triangle séléctinné
+        rayonDepart = null;
     }
 
     // Génére un rayon en projetant une coordonné de la caméra vers l'espace monde
@@ -136,7 +148,23 @@ class Accrocheur {
         );
     }
 
+    public void deplace(ArrayList<Triangle> triangles) {
+        // TODO : On drag selon le plan de la caméra :
+ 
+        if (rayonDepart == null) return; // Rien a déplacer
 
-    // TODO : On drag selon le plan de la caméra :
-    // La direction de déplacement par du point d'intersection et se dirige le plus rapidement possible vers le nouveau rayon de la projection
+        // On a enregistré la direction originel lorsqu'on a attrapé
+        // Afin de mesurer la différence avec la direction que point la souris actuellement
+        // Avec le t de la première intersection, on peut ainsi calculer la position actuel que devrait avoir le triangle
+
+        Triangle tri = triangles.get(triangleControle);
+
+        // On procède en faisant une routine dynamique inverse
+
+        //PVector f = new PVector(10, 1, 0);
+        //tri.particule1.velocite.add(f);
+        //tri.particule2.velocite.add(f);
+        //tri.particule3.velocite.add(f); 
+        
+    } 
 }

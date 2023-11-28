@@ -22,24 +22,24 @@ JSONArray presets;
 
 void genereVent(float n) {
   vent.x = random(0,5);
-  vent.y = 0.0;
+  vent.y = 0.0f;
   vent.z = random( - 5,5);
   
   vent.mult(n);
 } 
-void modifVent() { // modifie légèrement le vent au fils des pas de temps
-  vent.x += random(0, 0.1);
-  vent.z += random(-0.1,0.1);
+void modifVent() { // modifie légèrement le vent au fils des pas de temps pour éviter le tressautement
+  vent.x += random(0.f, 0.1f);
+  vent.z += random(-0.1f, 0.1f);
 }
 
 void setup() {  
   config = loadJSONObject("preset.json");
   presets = config.getJSONArray("presets"); 
 
-  size(1240,720,P3D);
+  size(1240, 720, P3D);
   frameRate(30);
   
-  cam = new PeasyCam(this,500);
+  cam = new PeasyCam(this, 500);
   //camera.setSuppressRollRotationMode();
   cam.setMinimumDistance(50);
   cam.setMaximumDistance(1000);
@@ -77,8 +77,8 @@ void sceneSetup() {
     config.getFloat("amortissement_air_tri"),
     config.getJSONArray("masses_statiques")
   );
-  vent = new PVector(0,0,0); 
-  gravite = new PVector(0,9.8,0);  
+  vent = new PVector(0, 0, 0); 
+  gravite = new PVector(0, 9.8f, 0);  
   genereVent(config.getFloat("puissance_du_vent")); 
 }
 
@@ -102,6 +102,11 @@ void mousePressed() {
   }  
 }
 
+void mouseReleased() {
+  if (mouseButton == LEFT) {
+    accrocheur.stopSelection(d.triangles);
+  }
+}
 
 void keyPressed(){
   if (key == 'c') {
@@ -121,7 +126,7 @@ void keyPressed(){
   }
   
   if(key == 's') { //  
-    for(int i = 60 ; i<74 ;i++)
+    for(int i = 60 ; i < 74 ;i++)
       d.découpageMasse(d.particules.get(i),d.ressorts.get(4));
   }
   //////// preset ////////
@@ -148,8 +153,8 @@ void draw() {
   d.dessiner(renduTriangle);
   modifVent();
   
-  if(!pause)
-    for(float i = 0; i < 0.1f; i+= dt)
+  if (!pause)
+    for (float i = 0; i < 0.1f; i+= dt)
       d.mettreAJour(dt, correct);
     
   // Debugage

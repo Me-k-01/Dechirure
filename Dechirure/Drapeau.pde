@@ -8,9 +8,7 @@ class Drapeau{
     public PVector position;
     
     public ArrayList<Ressort> ressorts = new ArrayList<Ressort>();
-    public ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-    public int triangleControle = 0;
-    public boolean bouge = false;
+    public ArrayList<Triangle> triangles = new ArrayList<Triangle>(); 
 
     public Drapeau(PVector p, int nbParticules, int l, float masses, float amortissementAirMasses, float longRep, float distance, float amortissementAirTri, JSONArray particulesStatiques) {
          
@@ -93,14 +91,7 @@ class Drapeau{
         }   
     }
      
-    public void forces() { 
-        if (bouge) {
-            Triangle tri = triangles.get(triangleControle);
-            PVector f = new PVector(10, 1, 0);
-            tri.particule1.velocite.add(f);
-            tri.particule2.velocite.add(f);
-            tri.particule3.velocite.add(f); 
-        }
+    public void forces() {  
         // 3 boucles sur chaque tableau
         //particules
         for (Particule particule : particules) 
