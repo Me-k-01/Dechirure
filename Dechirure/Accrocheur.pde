@@ -21,6 +21,7 @@ class Accrocheur {
 
     public int triangleControle = -1; // Indice du triangle que l'on controle
     private Ray rayonDebug = null;
+    private boolean debug = false;
  
     // Permet de déplacer le triangle séléctionné selon la souris.
     // Lorsque null, pas de triangle séléctionné
@@ -138,7 +139,7 @@ class Accrocheur {
     }
 
     public void dessinDebug() { // Dessin pour le debugage
-        if (rayonDebug == null) return; 
+        if (rayonDebug == null || debug == false) return; 
         stroke(0); 
 
         translate(rayonDebug.pos.x, rayonDebug.pos.y, rayonDebug.pos.z); 
@@ -166,8 +167,9 @@ class Accrocheur {
         // Avec le t de la première intersection, on peut ainsi calculer la position actuel que devrait avoir le triangle
         PVector nouvP = PVector.mult(rCurseur.dir, tDepart);
         PVector anciP = PVector.mult(rayonDepart.dir, tDepart);
-        PVector deplacement = PVector.sub(nouvP, anciP);
-
+        PVector deplacement = PVector.sub(anciP, nouvP);
+        deplacement.normalize();
+        deplacement.mult(0.1f);
         // On déplace ainsi chaque particule
         tri.particule1.dynamiqueInv(deplacement, dt); 
         tri.particule2.dynamiqueInv(deplacement, dt);
