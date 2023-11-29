@@ -180,7 +180,7 @@ class Drapeau{
                 parts.add(res.particule1);
         
         }
-        print(parts.size());
+        //print(parts.size());
         for(int i =0 ; i<parts.size() ; i++){
             for(int j =i+1 ; j<parts.size() ; j++){
 
@@ -202,11 +202,11 @@ class Drapeau{
         PVector normale = PVector.sub(r.particule1.position , r.particule2.position).normalize();
         // Duplication de la masse
     
-        Particule np = new Particule(p.position.copy(), p.velocite.copy(), p.masse/2, p.amortissementAir);
+        p.masse = Math.max(p.masse/2, 1);
+        Particule np = new Particule(p.position.copy(), p.velocite.copy(), p.masse, p.amortissementAir);
         particules.add(np);
         np.position.sub(normale);
-        
-        p.masse = p.masse/2;
+         
         //<>// //<>//
         // Rechercher les triangles qui sont lié au point qui doit être scindé // TODO : faire ca en plus rapide. //<>//
         ArrayList<Triangle> triangleRelies = rechercheTriangle(p);  //<>//

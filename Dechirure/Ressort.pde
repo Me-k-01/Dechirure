@@ -32,7 +32,7 @@ class Ressort{
         type = t;
         tc = 0.0001f; // Taux de deformation critique 
         distPrecedent = l;
-        longueurCarréDechirure = longueurRepos * longueurRepos + 10000 ;
+        longueurCarréDechirure = longueurRepos * longueurRepos + 40000 ;
     }
 
     public float longueurCarré() {

@@ -128,7 +128,7 @@ class Accrocheur {
         v.normalize(); 
         float o = ((float)Math.tan(fov) / 2.f) * focalDist; // TOA : fov déjà en radian
         
-        vertiVec = PVector.mult(v, - o * 2.f); // viewport v : hauteur TODO : trouver pourquoi mettre en negatif fait fonctionner
+        vertiVec = PVector.mult(v, -o * 2.f); // viewport v : hauteur TODO : trouver pourquoi mettre en negatif fait fonctionner
         horiVec = PVector.mult(u, aspect * o * 2.f); // Viewport u : largeur
  
 
