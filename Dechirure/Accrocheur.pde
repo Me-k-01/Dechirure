@@ -55,8 +55,7 @@ class Accrocheur {
                 }
             }
             i++;
-        }
-        System.out.println("tNear" + tNear);
+        } 
         // Si jamais on a eu une intersection
         if (tNear != Float.POSITIVE_INFINITY) {
             // On démare le déplacement
@@ -89,12 +88,13 @@ class Accrocheur {
         updateViewport();
  
         //System.out.println("camPos : x : "+camPos.x+", y : " + camPos.y + ", z : " + camPos.z);
-        System.out.println("hautGauche : x : " + hautGauche.x + ", y : " + hautGauche.y + ", z : " + hautGauche.z);
-        System.out.println("horiVec : x : " + horiVec.x + ", y : " + horiVec.y + ", z : " + horiVec.z);
-        System.out.println("vertiVec : x : " + vertiVec.x + ", y : " + vertiVec.y + ", z : " + vertiVec.z); 
-        System.out.println("camX : " + camX);
-        System.out.println("camY : " + camY);
-        
+        if (debug) {
+            System.out.println("hautGauche : x : " + hautGauche.x + ", y : " + hautGauche.y + ", z : " + hautGauche.z);
+            System.out.println("horiVec : x : " + horiVec.x + ", y : " + horiVec.y + ", z : " + horiVec.z);
+            System.out.println("vertiVec : x : " + vertiVec.x + ", y : " + vertiVec.y + ", z : " + vertiVec.z); 
+            System.out.println("camX : " + camX);
+            System.out.println("camY : " + camY);
+        }
         // Position du point du plan dans l'espace monde
         PVector posPoint = PVector.add(
             hautGauche, 
@@ -117,7 +117,8 @@ class Accrocheur {
     public void updateViewport() { 
         PVector camCible = versVec(cam.getLookAt()); // Cible que pointe la caméra 
         PVector camPos = versVec(cam.getPosition()); // Position de la caméra 
-        System.out.println("camCible : x : "+camCible.x+", y : " + camCible.y + ", z : " + camCible.z);
+        if (debug)
+            System.out.println("camCible : x : "+camCible.x+", y : " + camCible.y + ", z : " + camCible.z);
         // Systeme de coordonné local 
         PVector w = PVector.sub(camPos, camCible); // Inverse de la direction : - (lookAt - camPos)
         w.normalize();
