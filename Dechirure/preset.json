@@ -54,7 +54,7 @@
 
             "amortissement_air_tri" : 5.5,
 
-            "puissance_du_vent" : 20,
+            "puissance_du_vent" : 5,
 
             "masses_statiques" : [ 
                 0, 14

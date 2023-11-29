@@ -164,7 +164,7 @@ class Drapeau{
 
     }
 
-    private ArrayList<Ressort> ChercheRessortAuDessus(Particule p , ArrayList<Ressort> resList){
+    private ArrayList<Ressort> chercheRessortAuDessus(Particule p , ArrayList<Ressort> resList){
         ArrayList<Ressort> ress = new   ArrayList<Ressort>(); 
         ArrayList<Particule> parts = new   ArrayList<Particule>();
 
@@ -198,8 +198,7 @@ class Drapeau{
     }
     // Scinde un vertex en deux
     public void découpageMasse(Particule p, Ressort r ) { // Le ressort correspond au ressort de la particule
-        
-        r.colo =false;
+        r.colo = false;
         PVector normale = PVector.sub(r.particule1.position , r.particule2.position).normalize();
         // Duplication de la masse
     
@@ -210,7 +209,7 @@ class Drapeau{
         p.masse = p.masse/2;
         //<>// //<>//
         // Rechercher les triangles qui sont lié au point qui doit être scindé // TODO : faire ca en plus rapide. //<>//
-        ArrayList<Triangle> triangleRelies =rechercheTriangle(p);  //<>//
+        ArrayList<Triangle> triangleRelies = rechercheTriangle(p);  //<>//
         // réaffectation des triangles // TODO : half-edge
         
 
@@ -228,16 +227,15 @@ class Drapeau{
             isParticule1 = res.particule1.equals(p) ; 
             isParticule2 = res.particule2.equals(p) ; 
             
-            if(isParticule1 ){
-                ress.add(res); //on ajoute le ressort
+            if (isParticule1) {
+                ress.add(res); // On ajoute le ressort
 
-                if(! particuleDedans(res.particule2, triangleRelies)){ // si ce ressort a relie la particule avec une particule n'apparenant a aucun triangle deja recupere
-                    if(res.type !=Type.secondaire){
+                if (! particuleDedans(res.particule2, triangleRelies)) { // si ce ressort a relie la particule avec une particule n'apparenant a aucun triangle deja recupere
+                    if (res.type !=Type.secondaire) {
                         Triangle autre = chercheAutreMoiterDeCarre(triangleRelies, rechercheTriangle(res.particule2));//on cherche le triangle manquant
                         if(autre != null)
                             triangleRelies.add(autre);
-                    }
-                    else{
+                    } else {
                       Ressort rr = new Ressort(np,res.particule2,res.rigidite,res.longueurRepos,res.type);
                        ressorts.add(rr);
                         ress.add(rr);
@@ -245,17 +243,16 @@ class Drapeau{
                 }
             }
 
-            if(isParticule2 ){
+            if (isParticule2) {
                 ress.add(res);
                 
-                if(! particuleDedans(res.particule1, triangleRelies)){ 
+                if (! particuleDedans(res.particule1, triangleRelies)) { 
 
-                    if(res.type !=Type.secondaire){
+                    if (res.type !=Type.secondaire) {
                         Triangle autre = chercheAutreMoiterDeCarre(triangleRelies, rechercheTriangle(res.particule1));
                         if(autre != null)
                             triangleRelies.add(autre);
-                    }
-                    else{
+                    } else {
                         Ressort rr = new Ressort(res.particule1,np,res.rigidite,res.longueurRepos,res.type);
                         ressorts.add(rr);
                         ress.add(rr);
@@ -265,7 +262,7 @@ class Drapeau{
                 
             
         } 
-        ress.addAll(ChercheRessortAuDessus(p,ress));
+        ress.addAll(chercheRessortAuDessus(p,ress));
 
         //Trie les triangle en fonction de leur position par rapport au paln de decoupe
         ArrayList<Triangle> triangleDessus= new ArrayList<Triangle>() ; 
@@ -377,7 +374,6 @@ class Drapeau{
         // TODO : les ressorts tertiaire doivent être pris en compte
         // On peu se servir du ressort pour connaitre le ressort tertiaire a peter
         // Si un de ses ressorts passe par dessus le plan de découpe, il faut aussi le détruire.
-          
     }
         
 
@@ -390,6 +386,24 @@ class Drapeau{
         } 
         if (correct)
             correctionDesDeformations(dt);
+        dechire();
+    }
+
+    public void dechire() {
+        float d = 0;
+        Ressort r = null;
+        for (Ressort ressort : ressorts) {  
+            float nouvD = ressort.longueurCarré(); 
+            //System.out.println(ressort.longueurCarréDechirure);
+            if (d < nouvD && nouvD > ressort.longueurCarréDechirure && ! ressort.estStatique()) {
+                d = nouvD;
+                r = ressort;
+            }
+        } 
+        if (r != null) {
+            Particule p = r.plusLourds();
+            découpageMasse(p, r);
+        } 
     }
     
     

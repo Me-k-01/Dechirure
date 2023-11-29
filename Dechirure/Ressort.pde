@@ -12,6 +12,7 @@ enum Type{
 class Ressort{ 
     public float rigidite;
     public float longueurRepos;
+    public float longueurCarréDechirure; // Longueur critique au dela du quelle le ressort peut casser
     
     public Particule particule1;
     public Particule particule2;
@@ -19,7 +20,7 @@ class Ressort{
     private float tc; // Taux de déformation critique (entre 0 et 1)
     private float distPrecedent;
     
-    public boolean colo =true;
+    public boolean colo = true;
     
     private Type type;
     
@@ -31,6 +32,24 @@ class Ressort{
         type = t;
         tc = 0.0001f; // Taux de deformation critique 
         distPrecedent = l;
+        longueurCarréDechirure = longueurRepos * longueurRepos + 10000 ;
+    }
+
+    public float longueurCarré() {
+      return PVector.sub(particule2.position, particule1.position).magSq();
+    }
+
+    public Particule plusLourds( ) {
+      if (particule1.masse == particule2.masse) {
+        return Math.random()<0.5f? particule1 : particule2;
+      } else if (particule1.masse > particule2.masse) 
+        return particule1;
+      else 
+        return particule2;
+    }
+
+    public boolean estStatique() {
+      return particule1.statique || particule2.statique;
     }
     
     public void corrige(float dt) { // Corrige sur un pas de temps donné les élongations //<>// //<>// //<>//
