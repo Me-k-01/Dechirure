@@ -75,6 +75,7 @@ void sceneSetup() {
     config.getFloat("longueur_repos"),
     config.getFloat("espacement"),
     config.getFloat("amortissement_air_tri"),
+    config.getFloat("dechirure"),
     config.getJSONArray("masses_statiques")
   );
   vent = new PVector(0, 0, 0); 
@@ -127,7 +128,7 @@ void keyPressed(){
   
   if(key == 's') { //  
     for(int i = 60 ; i < 74 ;i++)
-      d.découpageMasse(d.particules.get(i),d.ressorts.get(4));
+      d.découpageMasse(d.particules.get(i), d.ressorts.get(4));
   }
   //////// preset ////////
   if(key == '1' || key == '&') { // drapeau

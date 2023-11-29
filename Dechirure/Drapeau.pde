@@ -5,21 +5,22 @@ class Drapeau{
     public int largeur;
     
     public float longueurRepos;
+    public float dech;
     public PVector position;
     
     public ArrayList<Ressort> ressorts = new ArrayList<Ressort>();
     public ArrayList<Triangle> triangles = new ArrayList<Triangle>(); 
 
-    public Drapeau(PVector p, int nbParticules, int l, float masses, float amortissementAirMasses, float longRep, float distance, float amortissementAirTri, JSONArray particulesStatiques) {
+    public Drapeau(PVector p, int nbParticules, int l, float masses, float amortissementAirMasses, float longRep, float distance, float amortissementAirTri, float dech, JSONArray particulesStatiques) {
          
         // generation des particules
         //============================================
         position = p;//position du coin superieur gauche
         longueur = l;
         largeur = nbParticules / longueur;
-        longueurRepos= longRep; 
-
-        if(distance > longRep)
+        longueurRepos = longRep; 
+        this.dech = dech;
+        if (distance > longRep)
             print("une erreur\n");// ("longeur au repos trop petite ");
         
         PVector posParticule;
@@ -55,17 +56,17 @@ class Drapeau{
                 
                 int i = x + (y*longueur);
                 if(lon)
-                    ressorts.add(new Ressort(particules.get(i), particules.get(i + 1), rigiditePrincipale, longRep, Type.principaux ));
+                    ressorts.add(new Ressort(particules.get(i), particules.get(i + 1), rigiditePrincipale, longRep, Type.principaux, dech));
                 if(lar)
-                    ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur), rigiditePrincipale, longRep , Type.principaux ));
+                    ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur), rigiditePrincipale, longRep , Type.principaux, dech));
                 if(y > 0 && lon)
-                        ressorts.add(new Ressort(particules.get(i), particules.get(i + 1 - longueur), rigiditeDiag, longRep*sqrt(2.f), Type.diagonale ));
+                        ressorts.add(new Ressort(particules.get(i), particules.get(i + 1 - longueur), rigiditeDiag, longRep*sqrt(2.f), Type.diagonale, dech));
                 if(lon && lar)
-                        ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur + 1), rigiditeDiag, longRep*sqrt(2.f), Type.diagonale ));
+                        ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur + 1), rigiditeDiag, longRep*sqrt(2.f), Type.diagonale, dech));
                 if(x < longueur-2)
-                    ressorts.add(new Ressort(particules.get(i), particules.get(i + 2), rigiditeSecond, longRep*2.f,  Type.secondaire ));
+                    ressorts.add(new Ressort(particules.get(i), particules.get(i + 2), rigiditeSecond, longRep*2.f,  Type.secondaire, dech));
                 if(y < largeur-2)
-                    ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur*2), rigiditeSecond, longRep*2.f, Type.secondaire ));
+                    ressorts.add(new Ressort(particules.get(i), particules.get(i + longueur*2), rigiditeSecond, longRep*2.f, Type.secondaire, dech));
             }
         }
 
@@ -236,7 +237,7 @@ class Drapeau{
                         if(autre != null)
                             triangleRelies.add(autre);
                     } else {
-                      Ressort rr = new Ressort(np,res.particule2,res.rigidite,res.longueurRepos,res.type);
+                      Ressort rr = new Ressort(np, res.particule2, res.rigidite, res.longueurRepos, res.type, res.dech);
                        ressorts.add(rr);
                         ress.add(rr);
                     }
@@ -253,7 +254,7 @@ class Drapeau{
                         if(autre != null)
                             triangleRelies.add(autre);
                     } else {
-                        Ressort rr = new Ressort(res.particule1,np,res.rigidite,res.longueurRepos,res.type);
+                        Ressort rr = new Ressort(res.particule1, np, res.rigidite, res.longueurRepos, res.type, res.dech);
                         ressorts.add(rr);
                         ress.add(rr);
                     }
@@ -336,13 +337,13 @@ class Drapeau{
                 
                 if(isParticule1 && tri.appartient(res.particule2) ){
                     if(! dejaRelie(p,res.particule2,ress))
-                        ressorts.add(new Ressort(p,res.particule2, res.rigidite, res.longueurRepos,res.type));
+                        ressorts.add(new Ressort(p,res.particule2, res.rigidite, res.longueurRepos,res.type, res.dech));
 
 
                 }
                 if(isParticule2 && tri.appartient(res.particule1)){
                     if(! dejaRelie(p,res.particule1,ress))
-                        ressorts.add(new Ressort(res.particule1,p, res.rigidite, res.longueurRepos,res.type));
+                        ressorts.add(new Ressort(res.particule1,p, res.rigidite, res.longueurRepos,res.type, res.dech));
                 }
             
             } 

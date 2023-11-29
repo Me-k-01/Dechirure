@@ -22,6 +22,7 @@ class Accrocheur {
     public int triangleControle = -1; // Indice du triangle que l'on controle
     private Ray rayonDebug = null;
     private boolean debug = false;
+    private float forceTire = 0.2f;
  
     // Permet de déplacer le triangle séléctionné selon la souris.
     // Lorsque null, pas de triangle séléctionné
@@ -170,7 +171,7 @@ class Accrocheur {
         PVector anciP = PVector.mult(rayonDepart.dir, tDepart);
         PVector deplacement = PVector.sub(anciP, nouvP);
         deplacement.normalize();
-        deplacement.mult(0.1f);
+        deplacement.mult(forceTire);
         // On déplace ainsi chaque particule
         tri.particule1.dynamiqueInv(deplacement, dt); 
         tri.particule2.dynamiqueInv(deplacement, dt);

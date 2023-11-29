@@ -12,7 +12,8 @@ enum Type{
 class Ressort{ 
     public float rigidite;
     public float longueurRepos;
-    public float longueurCarréDechirure; // Longueur critique au dela du quelle le ressort peut casser
+    public float dech; // ajout a la longueur au repos pour avoir la longueur de déchirement
+    public float longueurCarréDechirure; // Longueur critique au carré au dela du quelle le ressort peut casser
     
     public Particule particule1;
     public Particule particule2;
@@ -24,7 +25,7 @@ class Ressort{
     
     private Type type;
     
-    Ressort(Particule p1, Particule p2, float k, float l, Type t) {
+    Ressort(Particule p1, Particule p2, float k, float l, Type t, float d) {
         rigidite = k;
         longueurRepos = l;
         particule1 = p1;
@@ -32,7 +33,8 @@ class Ressort{
         type = t;
         tc = 0.0001f; // Taux de deformation critique 
         distPrecedent = l;
-        longueurCarréDechirure = longueurRepos * longueurRepos + 40000 ;
+        dech = d;
+        longueurCarréDechirure = longueurRepos * longueurRepos + d*d ;
     }
 
     public float longueurCarré() {
