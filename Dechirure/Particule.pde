@@ -65,4 +65,11 @@ class Particule{
         
         translate( - position.x, - position.y, - position.z);
     } 
+
+    public void dynamiqueInv(PVector dep, float dt) {
+        // On deplacement en faisant une routine dynamique inverse
+        PVector nouvPosition = PVector.sub(position, dep); // P(t+dt)
+        velocite.add(PVector.sub(nouvPosition, position).div(dt)); // v(t+dt) = (P(t+dt) - P(t)) /dt
+        position = nouvPosition;
+    }
 }

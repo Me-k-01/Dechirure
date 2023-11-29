@@ -7,11 +7,15 @@ class Triangle{
     public boolean colo = false;
     public float amortissementAir;
     public PVector normale = new PVector(0,0,0);
+    // public Particule[] particules;
 
     public Triangle(Particule p1, Particule p2, Particule p3, float aa) {
         particule1 = p1;
         particule2 = p2;
         particule3 = p3; 
+        // particules[0] = p1;
+        // particules[1] = p2;
+        // particules[3] = p3;
         amortissementAir = aa;
 
         calculerNormale(); 
@@ -42,7 +46,7 @@ class Triangle{
         PVector f = PVector.mult(
             PVector.mult( normale, (v.dot(normale) * amortissementAir)), 
             (1.f/3.f)
-        );
+        ); 
         particule1.forceExterne.add(f);
         particule2.forceExterne.add(f);
         particule3.forceExterne.add(f); 

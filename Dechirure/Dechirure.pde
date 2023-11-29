@@ -156,7 +156,7 @@ void draw() {
   if (!pause)
     for (float i = 0; i < 0.1f; i+= dt)
       d.mettreAJour(dt, correct);
-    
+    accrocheur.deplace(d.triangles, dt);
   // Debugage
   accrocheur.dessinDebug(); 
 }

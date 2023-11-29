@@ -25,6 +25,7 @@ class Accrocheur {
     // Permet de déplacer le triangle séléctionné selon la souris.
     // Lorsque null, pas de triangle séléctionné
     private Ray rayonDepart;
+    private float tDepart; // Distance t du point d'intersection du rayon de départ
 
     // Pour pouvoir créer un rayon, il nous faut les perspective de la camera
     public Accrocheur(float fov, float focalDist, float aspect) {  
@@ -59,6 +60,7 @@ class Accrocheur {
         if (tNear != Float.POSITIVE_INFINITY) {
             // On démare le déplacement
             rayonDepart = rayon; 
+            tDepart = tNear;
             changeControle(triangles, iNear);   
             // TODO : calculer le drag
             return true;
@@ -78,6 +80,7 @@ class Accrocheur {
         
         triangles.get(this.triangleControle).colo = false; // Décolorie le triangle séléctinné
         rayonDepart = null;
+        tDepart = 0;
     }
 
     // Génére un rayon en projetant une coordonné de la caméra vers l'espace monde
@@ -148,23 +151,32 @@ class Accrocheur {
         );
     }
 
-    public void deplace(ArrayList<Triangle> triangles) {
+    public void deplace(ArrayList<Triangle> triangles, float dt) {
         // TODO : On drag selon le plan de la caméra :
  
         if (rayonDepart == null) return; // Rien a déplacer
 
+        Triangle tri = triangles.get(triangleControle);         
         // On a enregistré la direction originel lorsqu'on a attrapé
         // Afin de mesurer la différence avec la direction que point la souris actuellement
+        Ray rCurseur = genereRayon(
+            (float)mouseX/(float)width, 
+            (float)mouseY/(float)height
+        );
         // Avec le t de la première intersection, on peut ainsi calculer la position actuel que devrait avoir le triangle
+        PVector nouvP = PVector.mult(rCurseur.dir, tDepart);
+        PVector anciP = PVector.mult(rayonDepart.dir, tDepart);
+        PVector deplacement = PVector.sub(nouvP, anciP);
 
-        Triangle tri = triangles.get(triangleControle);
-
-        // On procède en faisant une routine dynamique inverse
-
+        // On déplace ainsi chaque particule
+        tri.particule1.dynamiqueInv(deplacement, dt); 
+        tri.particule2.dynamiqueInv(deplacement, dt);
+        tri.particule3.dynamiqueInv(deplacement, dt);
         //PVector f = new PVector(10, 1, 0);
         //tri.particule1.velocite.add(f);
         //tri.particule2.velocite.add(f);
         //tri.particule3.velocite.add(f); 
         
-    } 
+    }  
+    
 }

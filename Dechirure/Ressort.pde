@@ -56,23 +56,14 @@ class Ressort{
         // La réduction doit se faire selon si le ressort est libre ou fixe  
         // Si l'un des deux est fixe, il faut rapprocher le libre vers le fixe de sorte a respecter la contrainte statique de masses
         if (particule1.statique) {
-          PVector nouvPosition = PVector.sub(particule2.position, dep); // P(t+dt)
-          particule2.velocite.add(PVector.sub(nouvPosition, particule2.position).div(dt)); // v(t+dt) = (P(t+dt) - P(t)) /dt
-          particule2.position = nouvPosition;
+          particule2.dynamiqueInv(dep, dt); 
         } else if (particule2.statique) { 
-          PVector nouvPosition = PVector.add(particule1.position, dep); // P(t+dt)
-          particule1.velocite.add(PVector.sub(nouvPosition, particule1.position).div(dt)); // v(t+dt) = (P(t+dt) - P(t)) /dt
-          particule1.position = nouvPosition;
+          particule1.dynamiqueInv(PVector.mult(dep, -1.f), dt); 
         // Si les deux sont libre, on les rapproche vers leurs centre
         } else {   
           dep = PVector.mult(dep, 0.5f); // Déplacement vers le centre
-          PVector nouvPosition1 = PVector.add(particule1.position, dep); // P(t+dt)
-          PVector nouvPosition2 = PVector.sub(particule2.position, dep); // P(t+dt)
-          particule1.velocite.add(PVector.sub(nouvPosition1, particule1.position).div(dt)); // v(t+dt) = (P(t+dt) - P(t)) /dt
-          particule2.velocite.add(PVector.sub(nouvPosition2, particule2.position).div(dt)); // v(t+dt) = (P(t+dt) - P(t)) /dt
-
-          particule1.position = nouvPosition1;
-          particule2.position = nouvPosition2;
+          particule2.dynamiqueInv(dep, dt); 
+          particule1.dynamiqueInv(PVector.mult(dep, -1.f), dt);  
         }
         
         
@@ -80,9 +71,6 @@ class Ressort{
         
         //System.out.println(dist);
         // Alors on applique la procédure dynamique inverse sur les deux masses du ressorts de tel sorte a ce qu'on soit égal a la déformation critique 
-        
-         
-         
     }
     
     public void calculerForces() {
