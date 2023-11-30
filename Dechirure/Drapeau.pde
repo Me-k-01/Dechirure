@@ -203,7 +203,7 @@ class Drapeau{
         PVector normale = PVector.sub(r.particule1.position , r.particule2.position).normalize();
         // Duplication de la masse
     
-        p.masse = Math.max(p.masse/2, 1);
+        p.masse = Math.max(p.masse/2.f, 1f);
         Particule np = new Particule(p.position.copy(), p.velocite.copy(), p.masse, p.amortissementAir);
         particules.add(np);
         np.position.sub(normale);
@@ -403,7 +403,7 @@ class Drapeau{
         } 
         if (r != null) {
             Particule p = r.plusLourds();
-            découpageMasse(p, r);
+            découpageMasse(p, r); 
         } 
     }
     

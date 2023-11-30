@@ -31,7 +31,7 @@ class Ressort{
         particule1 = p1;
         particule2 = p2;
         type = t;
-        tc = 0.0001f; // Taux de deformation critique 
+        tc = 0.001f; // Taux de deformation critique 
         distPrecedent = l;
         dech = d;
         longueurCarréDechirure = longueurRepos * longueurRepos + d*d ;
@@ -65,7 +65,7 @@ class Ressort{
         float deformation = dist - distPrecedent;
         
         // Si la deformation d'un ressort ne dépasse pas le taux de déformation critique, il n'y a rien a faire
-        if (abs(deformation) <= tc*longueurRepos) return; 
+        if (abs(deformation) <= tc*longueurRepos*(1.f/(particule1.masse + particule2.masse))) return; 
         
         // Il faut les replacer les position et recalculer les velocités en conséquence, 
         // de tel sorte a ce que la deformation actuel corresponde à la deformation max        
