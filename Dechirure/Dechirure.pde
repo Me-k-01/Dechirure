@@ -39,6 +39,12 @@ void setup() {
   size(1240, 720, P3D);
   frameRate(30);
   
+  float fov = 1.f; 
+  float aspect = (float)width / (float)height;  
+  float nearClip = 1.f;
+  float farClip = 100000.f; 
+  perspective(fov, aspect, nearClip, farClip);  
+  
   cam = new PeasyCam(this, 500);
   //camera.setSuppressRollRotationMode();
   cam.setMinimumDistance(50);
@@ -47,12 +53,7 @@ void setup() {
   // Changement des contrôles de la caméra, pour permettre d'attraper des triangles avec le clique gauche
   cam.setLeftDragHandler(null); 
   cam.setRightDragHandler(cam.getRotateDragHandler());
-
-  float fov = 1.f;
-  float aspect = (float)width / (float)height; 
-  float nearClip = 1.f;
-  float farClip = 100000.f;
-  perspective(fov, aspect, nearClip, farClip);  
+ 
   accrocheur = new Accrocheur(fov, aspect, nearClip);
 
   sceneSetup();

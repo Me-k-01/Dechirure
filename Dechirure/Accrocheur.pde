@@ -20,22 +20,23 @@ class Accrocheur {
     private PVector vertiVec;  // viewport v
 
     public int triangleControle = -1; // Indice du triangle que l'on controle
+    
     private Ray rayonDebug = null;
-    private boolean debug = false;
-    private float forceTire = 0.2f;
+    private boolean debug = false; 
+
+    private float forceTire = 0.2f; // Force avec laquelle l'utilisateur peut influencer le maillage
  
     // Permet de déplacer le triangle séléctionné selon la souris.
-    // Lorsque null, pas de triangle séléctionné
+    // Lorsque rayonDepart = null, pas de triangle séléctionné
     private Ray rayonDepart;
     private float tDepart; // Distance t du point d'intersection du rayon de départ
 
     // Pour pouvoir créer un rayon, il nous faut les perspective de la camera
-    public Accrocheur(float fov, float focalDist, float aspect) {  
+    public Accrocheur(float fov, float aspect, float focalDist) {  
         this.fov = fov; // FOV en radian
         this.focalDist = focalDist; 
-        this.aspect = aspect; 
-        
-        updateViewport();
+        this.aspect = aspect;   
+        updateViewport(versVec(cam.getPosition()), versVec(cam.getLookAt()));
     }
     
     public boolean selectionTriangle(ArrayList<Triangle> triangles, Ray rayon) {
@@ -86,10 +87,12 @@ class Accrocheur {
 
     // Génére un rayon en projetant une coordonné de la caméra vers l'espace monde
     public Ray genereRayon(float camX, float camY) { 
-        updateViewport();
- 
-        //System.out.println("camPos : x : "+camPos.x+", y : " + camPos.y + ", z : " + camPos.z);
-        if (debug) {
+        PVector camCible = versVec(cam.getLookAt()); // Cible que pointe la caméra 
+        PVector camPos = versVec(cam.getPosition()); // Position de la caméra 
+        updateViewport(camPos, camCible);
+  
+        if (debug) { 
+            System.out.println("camCible : x : "+camCible.x+", y : " + camCible.y + ", z : " + camCible.z);
             System.out.println("hautGauche : x : " + hautGauche.x + ", y : " + hautGauche.y + ", z : " + hautGauche.z);
             System.out.println("horiVec : x : " + horiVec.x + ", y : " + horiVec.y + ", z : " + horiVec.z);
             System.out.println("vertiVec : x : " + vertiVec.x + ", y : " + vertiVec.y + ", z : " + vertiVec.z); 
@@ -104,7 +107,7 @@ class Accrocheur {
                 PVector.mult(vertiVec, camY)
             )
         ); // topLeft + vU * x - vV * y
-        PVector dir = PVector.sub(posPoint, versVec(cam.getPosition())); // point - camPos
+        PVector dir = PVector.sub(posPoint, camPos); // point - camPos
         dir.normalize();
 
         return new Ray(posPoint, dir);
@@ -115,11 +118,7 @@ class Accrocheur {
     }
  
 
-    public void updateViewport() { 
-        PVector camCible = versVec(cam.getLookAt()); // Cible que pointe la caméra 
-        PVector camPos = versVec(cam.getPosition()); // Position de la caméra 
-        if (debug)
-            System.out.println("camCible : x : "+camCible.x+", y : " + camCible.y + ", z : " + camCible.z);
+    public void updateViewport(PVector camPos, PVector camCible) {  
         // Systeme de coordonné local 
         PVector w = PVector.sub(camPos, camCible); // Inverse de la direction : - (lookAt - camPos)
         w.normalize();
@@ -127,7 +126,7 @@ class Accrocheur {
         u.normalize();
         PVector v = new PVector(w.x, w.y, w.z).cross(u);
         v.normalize(); 
-        float o = ((float)Math.tan(fov) / 2.f) * focalDist; // TOA : fov déjà en radian
+        float o = ((float)Math.tan(fov/ 2.f)) * focalDist; // TOA : fov déjà en radian
         
         vertiVec = PVector.mult(v, -o * 2.f); // viewport v : hauteur TODO : trouver pourquoi mettre en negatif fait fonctionner
         horiVec = PVector.mult(u, aspect * o * 2.f); // Viewport u : largeur
