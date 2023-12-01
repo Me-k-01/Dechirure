@@ -1,8 +1,11 @@
 # Dechirure
 Ce projet a été réalisé dans le cadre de l'UE Modélisation et animation sur Processing.
+
 Dans ce projet nous simulons les déchirure de tissu en se servant d'un modèle de masses et de ressorts. 
+
 Une correction est appliquée après l'intégration des forces afin de minimiser les instabilités du système; en limitant l'extensibilité des ressorts sur un pas de temps donné.
 3 scènes sont prédéfinies dans le fichier preset.json.
+
 L'utilisateur peut interagir avec les tissus avec sa souris et déplacer la caméra. Une procédure de découpage des ressorts permet lorsqu'il est trop étendu de reproduire le phénomène de déchirure du tissus.
 
 
