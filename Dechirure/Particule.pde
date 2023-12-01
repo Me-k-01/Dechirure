@@ -9,7 +9,7 @@ class Particule{
     public float amortissementAir;
     
     public boolean  statique = false;
-    public boolean colo =false;
+    public boolean colo = false;
     
     
     public Particule(PVector p0, PVector v0, float m, float aa) {
