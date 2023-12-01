@@ -5,9 +5,12 @@ Une correction est appliquée après l'intégration des forces afin de minimiser
 3 scènes sont prédéfinies dans le fichier preset.json.
 L'utilisateur peut interagir avec les tissus avec sa souris et déplacer la caméra. Une procédure de découpage des ressorts permet lorsqu'il est trop étendu de reproduire le phénomène de déchirure du tissus.
 
-> Lien de la vidéo d'introduction au projet
+[demo](./Img/demo.png "Démo de déchirure sur la scène 1")
+
+> Lien de la vidéo de présentation du projet : 
 [https://www.youtube.com/watch?v=9F-dFGtQmTc](https://www.youtube.com/watch?v=9F-dFGtQmTc)
-> Lien du dépot
+
+> Lien du dépot Git : 
 [https://github.com/Me-k-01?tab=repositories](https://github.com/Me-k-01?tab=repositories)
 
 ## Contrôle
@@ -17,4 +20,3 @@ L'utilisateur peut interagir avec les tissus avec sa souris et déplacer la cam�
 - On peut visualiser les ressorts en appuyant sur la touche "t" du clavier.
 - On peut stopper les déchirures automatiques avec la touche "b".
 - En appuyant sur la touche "s" du clavier, une déchirure parfaitement droite peut être appliqué sur les scènes 2 et 3.
- 
