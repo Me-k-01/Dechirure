@@ -5,7 +5,8 @@ Une correction est appliquée après l'intégration des forces afin de minimiser
 3 scènes sont prédéfinies dans le fichier preset.json.
 L'utilisateur peut interagir avec les tissus avec sa souris et déplacer la caméra. Une procédure de découpage des ressorts permet lorsqu'il est trop étendu de reproduire le phénomène de déchirure du tissus.
 
-[demo](./Img/demo.png "Démo de déchirure sur la scène 1")
+
+![demo](./Img/demo.png "Démo de déchirure sur la scène 1")
 
 > Lien de la vidéo de présentation du projet : 
 [https://www.youtube.com/watch?v=9F-dFGtQmTc](https://www.youtube.com/watch?v=9F-dFGtQmTc)
