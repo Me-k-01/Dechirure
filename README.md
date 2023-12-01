@@ -12,4 +12,4 @@ Dans ce projet, l'utilisateur peut intéragir avec les triangles avec sa souris 
 - La simulation peut être mis en pause en appuyant sur la touche "p".
 - Les touches "1", "2" et "3" du clavier permettent de changer de scène.
 - On peut visualiser les ressort en appuyant sur la touche "t" du clavier.
-
+- On peut stopper les déchirures automatiques avec la touche "b".

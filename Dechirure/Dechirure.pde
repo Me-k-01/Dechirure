@@ -13,6 +13,7 @@ float rigiditeDiag;
 boolean pause = false;
 boolean renduTriangle = true;
 boolean correct = true;
+boolean dechire = true;
    
 Accrocheur accrocheur; 
 
@@ -115,6 +116,10 @@ void keyPressed(){
     correct = !correct;
     println("Configuration : Correction des déformations à " + correct);
   } 
+  if (key == 'b') {
+    dechire = !dechire;
+    println("Configuration : Déchirure automatique " + dechire);
+  } 
   if (key == 'r') {
     sceneSetup();
   } 
@@ -155,10 +160,11 @@ void draw() {
   d.dessiner(renduTriangle);
   modifVent();
   
-  if (!pause)
+  if (!pause) {
     for (float i = 0; i < 0.1f; i+= dt)
-      d.mettreAJour(dt, correct);
+      d.mettreAJour(dt, correct, dechire);
     accrocheur.deplace(d.triangles, dt);
+  }
   // Debugage
   accrocheur.dessinDebug(); 
 }

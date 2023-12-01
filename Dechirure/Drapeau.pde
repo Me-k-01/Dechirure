@@ -378,7 +378,7 @@ class Drapeau{
     }
         
 
-    public void mettreAJour(float dt, boolean correct) {
+    public void mettreAJour(float dt, boolean correct, boolean dechire) {
         
         forces(); 
         
@@ -387,7 +387,8 @@ class Drapeau{
         } 
         if (correct)
             correctionDesDeformations(dt);
-        dechire();
+        if (dechire)
+            dechire();
     }
 
     public void dechire() {
