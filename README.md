@@ -13,7 +13,7 @@ L'utilisateur peut interagir avec les tissus avec sa souris et déplacer la cam�
 > Lien du dépot Git : 
 [https://github.com/Me-k-01?tab=repositories](https://github.com/Me-k-01?tab=repositories)
 
-## Contrôle
+## Contrôles
 - La correction des ressorts peut être activée et désactivée en appuyant sur la touche "c" du clavier.
 - La simulation peut être mise en pause en appuyant sur la touche "p".
 - Les touches "1", "2" et "3" du clavier permettent de changer de scène.
