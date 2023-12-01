@@ -7,6 +7,11 @@ Une correction est appliqué après l'intégration des forces afin de minimiser 
 
 Dans ce projet, l'utilisateur peut intéragir avec les triangles avec sa souris et déplacer la caméra.
 
+> Lien de la vidéo d'introduction au projet
+[https://www.youtube.com/watch?v=9F-dFGtQmTc](https://www.youtube.com/watch?v=9F-dFGtQmTc)
+Lien du dépot
+[https://github.com/Me-k-01?tab=repositories](https://github.com/Me-k-01?tab=repositories)
+
 ## Contrôle
 - La correction des ressorts peut être activé et désactivé en appuyant sur la touche "c" du clavier.
 - La simulation peut être mis en pause en appuyant sur la touche "p".
